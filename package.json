@@ -1,0 +1,14 @@
+{
+  "name": "immortal_eternal_project",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "sir Random <RandomAmbersky@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "contract-build": "cargo build --manifest-path ./InternalWorldToken/Cargo.toml --target wasm32-unknown-unknown --release"
+  },
+  "devDependencies": {
+    "near-cli": "^3.1.0"
+  }
+}
