@@ -6,7 +6,8 @@
   "author": "sir Random <RandomAmbersky@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "contract-build": "cargo build --manifest-path ./InternalWorldToken/Cargo.toml --target wasm32-unknown-unknown --release"
+    "contract-build": "cargo build --manifest-path ./InternalWorldToken/Cargo.toml --target wasm32-unknown-unknown --release",
+    "contract-test": "cargo test --manifest-path ./InternalWorldToken/Cargo.toml"
   },
   "devDependencies": {
     "near-cli": "^3.1.0"
