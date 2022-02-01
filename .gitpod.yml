@@ -21,13 +21,13 @@ github:
     addLabel: false
 
 # List the start up tasks. You can start them in parallel in multiple terminals. See https://www.gitpod.io/docs/config-start-tasks/
-tasks:
-  - before: nvm use default
-    init: npm install near-shell -g --no-optional
-    command: gp open README.md && near dev-deploy --wasmFile ./res/fungible_token.wasm && source ./neardev/dev-account.env && NEAR_ACCOUNT_NAME=$CONTRACT_NAME
+#tasks:
+#  - before: nvm use default
+#    init: npm install near-shell -g --no-optional
+#    command: gp open README.md && near dev-deploy --wasmFile ./res/fungible_token.wasm && source ./neardev/dev-account.env && NEAR_ACCOUNT_NAME=$CONTRACT_NAME
 
-vscode:
-  extensions:
-    - hbenl.vscode-test-explorer@2.15.0:koqDUMWDPJzELp/hdS/lWw==
-    - Swellaby.vscode-rust-test-adapter@0.11.0:Xg+YeZZQiVpVUsIkH+uiiw==
-    - bungcip.better-toml@0.3.2:3QfgGxxYtGHfJKQU7H0nEw==
+#vscode:
+#  extensions:
+#    - hbenl.vscode-test-explorer@2.15.0:koqDUMWDPJzELp/hdS/lWw==
+#    - Swellaby.vscode-rust-test-adapter@0.11.0:Xg+YeZZQiVpVUsIkH+uiiw==
+#    - bungcip.better-toml@0.3.2:3QfgGxxYtGHfJKQU7H0nEw==
