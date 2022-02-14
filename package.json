@@ -7,7 +7,9 @@
   "license": "MIT",
   "scripts": {
     "contract-build": "cargo build --manifest-path ./InternalWorldToken/Cargo.toml --target wasm32-unknown-unknown --release",
-    "contract-test": "cargo test --manifest-path ./InternalWorldToken/Cargo.toml"
+    "contract-test": "cargo test --manifest-path ./InternalWorldToken/Cargo.toml",
+    "counter:test": "cargo test --manifest-path ./rust-counter-tutorial/Cargo.toml -- --nocapture",
+    "counter:compile": "cargo build --target wasm32-unknown-unknown --release --manifest-path ./rust-counter-tutorial/Cargo.toml"
   },
   "devDependencies": {
     "near-cli": "^3.2.0"
