@@ -13,7 +13,11 @@
     "counter:deploy": "yarn counter:compile && near deploy --wasmFile ./rust-counter-tutorial/target/wasm32-unknown-unknown/release/rust_counter_tutorial.wasm --accountId testerman-testnet.testnet",
     "counter:increment": "near call testerman-testnet.testnet increment --accountId testerman-testnet.testnet",
     "counter:decrement": "near call testerman-testnet.testnet decrement --accountId testerman-testnet.testnet",
-    "counter:get_num": "near view testerman-testnet.testnet get_num --accountId testerman-testnet.testnet"
+    "counter:get_num": "near view testerman-testnet.testnet get_num --accountId testerman-testnet.testnet",
+    "ft:test": "cargo test --manifest-path ./my-cool-fungible-token/Cargo.toml -- --nocapture",
+    "ft:compile": "cargo build --target wasm32-unknown-unknown --release --manifest-path ./my-cool-fungible-token/Cargo.toml",
+    "ft:dev-deploy": "yarn ft:compile && near dev-deploy --wasmFile ./my-cool-fungible-token/target/wasm32-unknown-unknown/release/my_cool_fungible_token.wasm --helperUrl https://near-contract-helper.onrender.com",
+    "ft:deploy": "yarn ft:compile && near deploy --wasmFile ./my-cool-fungible-token/target/wasm32-unknown-unknown/release/my_cool_fungible_token.wasm --accountId testerman-testnet.testnet"
   },
   "devDependencies": {
     "near-cli": "^3.2.0"
