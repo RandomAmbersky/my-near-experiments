@@ -60,7 +60,8 @@ impl FungibleTokenMetadataProvider for Contract {
 
 #[cfg(all(test, not(target_arch = "wasm32")))]
 mod tests {
-    use near_sdk::json_types::ValidAccountId;
+    use near_contract_standards::storage_management::StorageManagement;
+    use near_sdk::json_types::{U128, ValidAccountId};
     use near_sdk::test_utils::{accounts, VMContextBuilder};
     use near_sdk::{Balance, MockedBlockchain, testing_env};
     use crate::fungible_token::Contract;
@@ -86,8 +87,14 @@ mod tests {
     fn test_new() {
         let mut context = get_context(accounts(1));
         testing_env!(context.build());
-        // let contract = Contract::new();
+        let contract = Contract::new();
         testing_env!(context.is_view(true).build());
-        // assert_eq!(contract.token.total_supply, 0);
+        assert_eq!(contract.token.total_supply, 0);
+        let balance_bounds = contract.token.storage_balance_bounds();
+        let expected_min:U128 = 1_250_000_000_000_000_000_000.into();
+        let expected_max:U128 = 1_250_000_000_000_000_000_000.into();
+        assert_eq!(balance_bounds.min, expected_min);
+        assert_eq!(balance_bounds.max, Some(expected_max));
     }
 }
+
