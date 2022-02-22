@@ -1,13 +1,11 @@
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::{PanicOnDefault, near_bindgen, env, Balance, AccountId, log};
+use near_sdk::{PanicOnDefault, near_bindgen, env, Balance, log};
 use near_contract_standards::fungible_token::FungibleToken;
 use near_contract_standards::fungible_token::metadata::{FT_METADATA_SPEC, FungibleTokenMetadata, FungibleTokenMetadataProvider};
-use near_sdk::json_types::{ValidAccountId, U128};
-use near_sdk::{PromiseOrValue};
 use near_sdk::collections::LazyOption;
 
 const FT_NAME: &str = "My Cool Pretty Token";
-const FT_SYMBOL: &str = "MCPT";
+const FT_SYMBOL: &str = "COOL";
 const TOTAL_SUPPLY: Balance = 1_000;
 
 near_sdk::setup_alloc!();
@@ -23,8 +21,7 @@ pub struct Contract {
 impl Contract {
 	#[init]
 	pub fn new() -> Self {
-        let owner_id = env::current_account_id();
-        let total_supply: U128 = TOTAL_SUPPLY.into();
+        assert!(!env::state_exists(), "Already initialized");
         let token = FungibleToken::new(b"a".to_vec());
         let meta = FungibleTokenMetadata {
             spec: FT_METADATA_SPEC.to_string(),
@@ -33,29 +30,26 @@ impl Contract {
             icon: None,
             reference: None,
             reference_hash: None,
-            decimals: 0
+            decimals: 24
         };
         let metadata = LazyOption::new(b"m".to_vec(), Some(&meta));
-        let mut this = Self {
+        Self {
             token,
             metadata
-		};
-        this.token.internal_register_account(&owner_id);
-        this.token.internal_deposit(&owner_id, total_supply.into());
-        this
+		}
 	}
 
-    fn on_account_closed(&mut self, account_id: AccountId, balance: Balance) {
-        log!("Closed @{} with {}", account_id, balance);
-    }
+    // fn on_account_closed(&mut self, account_id: AccountId, balance: Balance) {
+    //     log!("Closed @{} with {}", account_id, balance);
+    // }
 
-    fn on_tokens_burned(&mut self, account_id: AccountId, amount: Balance) {
-        log!("Account @{} burned {}", account_id, amount);
-    }
+    // fn on_tokens_burned(&mut self, account_id: AccountId, amount: Balance) {
+    //     log!("Account @{} burned {}", account_id, amount);
+    // }
 }
 
-near_contract_standards::impl_fungible_token_core!(Contract, token, on_tokens_burned);
-near_contract_standards::impl_fungible_token_storage!(Contract, token, on_account_closed);
+// near_contract_standards::impl_fungible_token_core!(Contract, token, on_tokens_burned);
+// near_contract_standards::impl_fungible_token_storage!(Contract, token, on_account_closed);
 
 #[near_bindgen]
 impl FungibleTokenMetadataProvider for Contract {
@@ -80,7 +74,6 @@ mod tests {
         builder
     }
 
-    // const TOTAL_SUPPLY: Balance = 1_000_000_000_000_000;
     #[test]
     #[should_panic(expected = "The contract is not initialized")]
     fn test_default() {
@@ -93,10 +86,9 @@ mod tests {
     fn test_new() {
         let mut context = get_context(accounts(1));
         testing_env!(context.build());
-        testing_env!(context.is_view(true).build());
         let contract = Contract::new();
-        assert_eq!(contract.ft_metadata().0, TOTAL_SUPPLY);
-        // assert_eq!(contract.ft_balance_of(accounts(1)).0, TOTAL_SUPPLY);
+        testing_env!(context.is_view(true).build());
+        assert_eq!(contract.token.total_supply, 0);
+        assert_eq!(contract.token.account_storage_usage, 125);
     }
-
 }
