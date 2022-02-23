@@ -1,8 +1,9 @@
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::{PanicOnDefault, near_bindgen, env, Balance, log};
+use near_sdk::{PanicOnDefault, near_bindgen, env, Balance, log, AccountId, PromiseOrValue};
 use near_contract_standards::fungible_token::FungibleToken;
 use near_contract_standards::fungible_token::metadata::{FT_METADATA_SPEC, FungibleTokenMetadata, FungibleTokenMetadataProvider};
 use near_sdk::collections::LazyOption;
+use near_sdk::json_types::{ValidAccountId, U128};
 
 const FT_NAME: &str = "My Cool Pretty Token";
 const FT_SYMBOL: &str = "COOL";
@@ -39,17 +40,17 @@ impl Contract {
 		}
 	}
 
-    // fn on_account_closed(&mut self, account_id: AccountId, balance: Balance) {
-    //     log!("Closed @{} with {}", account_id, balance);
-    // }
+    fn on_account_closed(&mut self, account_id: AccountId, balance: Balance) {
+        log!("Closed @{} with {}", account_id, balance);
+    }
 
-    // fn on_tokens_burned(&mut self, account_id: AccountId, amount: Balance) {
-    //     log!("Account @{} burned {}", account_id, amount);
-    // }
+    fn on_tokens_burned(&mut self, account_id: AccountId, amount: Balance) {
+        log!("Account @{} burned {}", account_id, amount);
+    }
 }
 
-// near_contract_standards::impl_fungible_token_core!(Contract, token, on_tokens_burned);
-// near_contract_standards::impl_fungible_token_storage!(Contract, token, on_account_closed);
+near_contract_standards::impl_fungible_token_core!(Contract, token, on_tokens_burned);
+near_contract_standards::impl_fungible_token_storage!(Contract, token, on_account_closed);
 
 #[near_bindgen]
 impl FungibleTokenMetadataProvider for Contract {
@@ -60,6 +61,7 @@ impl FungibleTokenMetadataProvider for Contract {
 
 #[cfg(all(test, not(target_arch = "wasm32")))]
 mod tests {
+    use near_contract_standards::fungible_token::core::FungibleTokenCore;
     use near_contract_standards::storage_management::StorageManagement;
     use near_sdk::json_types::{U128, ValidAccountId};
     use near_sdk::test_utils::{accounts, VMContextBuilder};
@@ -89,12 +91,16 @@ mod tests {
         testing_env!(context.build());
         let contract = Contract::new();
         testing_env!(context.is_view(true).build());
-        assert_eq!(contract.token.total_supply, 0);
-        let balance_bounds = contract.token.storage_balance_bounds();
+        assert_eq!(contract.ft_total_supply(), 0.into());
+        let balance_bounds = contract.storage_balance_bounds();
         let expected_min:U128 = 1_250_000_000_000_000_000_000.into();
         let expected_max:U128 = 1_250_000_000_000_000_000_000.into();
         assert_eq!(balance_bounds.min, expected_min);
         assert_eq!(balance_bounds.max, Some(expected_max));
     }
-}
 
+    #[test]
+    fn test_transfer() {
+        // contract.storage_deposit(None, None);
+    }
+}
