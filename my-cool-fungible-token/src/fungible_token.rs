@@ -61,6 +61,8 @@ impl FungibleTokenMetadataProvider for Contract {
 
 #[cfg(all(test, not(target_arch = "wasm32")))]
 mod tests {
+    use super::*;
+
     use near_contract_standards::fungible_token::core::FungibleTokenCore;
     use near_contract_standards::storage_management::StorageManagement;
     use near_sdk::json_types::{U128, ValidAccountId};
@@ -101,6 +103,31 @@ mod tests {
 
     #[test]
     fn test_transfer() {
-        // contract.storage_deposit(None, None);
+        let mut context = get_context(accounts(1));
+        testing_env!(context.build());
+        let mut contract = Contract::new();
+
+        contract.token.internal_register_account(accounts(1).as_ref());
+        contract.token.internal_register_account(accounts(2).as_ref());
+
+        contract.token.internal_deposit(accounts(2).as_ref(), 1000);
+
+        testing_env!(context
+            .storage_usage(env::storage_usage())
+            .attached_deposit(1)
+            .predecessor_account_id(accounts(2))
+            .build());
+        contract.ft_transfer(accounts(1), 1000.into(), None);
+
+        testing_env!(context
+            .storage_usage(env::storage_usage())
+            .account_balance(env::account_balance())
+            .is_view(true)
+            .attached_deposit(0)
+            .build());
+        let balance_1 = contract.ft_balance_of(accounts(1));
+        let balance_2 = contract.ft_balance_of(accounts(2));
+        assert_eq!(balance_1, 1000.into());
+        assert_eq!(balance_2, 0.into());
     }
 }
