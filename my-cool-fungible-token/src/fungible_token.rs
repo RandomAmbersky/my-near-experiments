@@ -132,9 +132,18 @@ mod tests {
         assert_eq!(storage_balance_option.is_none(), true);
 
         let storage_balance_bounds = contract.storage_balance_bounds();
-        let balance_bounds_min = storage_balance_bounds.min;
-        let balance_bounds_max = storage_balance_bounds.max.unwrap();
-        assert_eq!(balance_bounds_min, 2350000000000000000000.into());
-        assert_eq!(balance_bounds_max, 2350000000000000000000.into());
+        let balance_bounds_min = storage_balance_bounds.min.0;
+        let balance_bounds_max = storage_balance_bounds.max.unwrap().0;
+        assert_eq!(balance_bounds_min, balance_bounds_max);
+
+        testing_env!(context
+            .storage_usage(env::storage_usage())
+            .attached_deposit(balance_bounds_min)
+            .predecessor_account_id(accounts(1))
+            .build());
+
+        let storage_deposit = contract.storage_deposit(accounts(1).into(), None);
+        assert_eq!(storage_deposit.available.0, 0);
+        assert_eq!(storage_deposit.total.0, balance_bounds_min);
     }
 }
