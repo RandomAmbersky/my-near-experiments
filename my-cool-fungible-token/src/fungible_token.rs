@@ -2,20 +2,14 @@ use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::{PanicOnDefault, near_bindgen, env, Balance, log, AccountId, PromiseOrValue};
 use near_contract_standards::fungible_token::FungibleToken;
 use near_contract_standards::fungible_token::metadata::{FT_METADATA_SPEC, FungibleTokenMetadata, FungibleTokenMetadataProvider};
-use near_sdk::collections::LazyOption;
 use near_sdk::json_types::{ValidAccountId, U128};
-
-const FT_NAME: &str = "My Cool Pretty Token";
-const FT_SYMBOL: &str = "COOL";
-const TOTAL_SUPPLY: Balance = 1_000;
 
 near_sdk::setup_alloc!();
 
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
 pub struct Contract {
-    token: FungibleToken,
-    metadata: LazyOption<FungibleTokenMetadata>,
+    token: FungibleToken
 }
 
 #[near_bindgen]
@@ -24,19 +18,8 @@ impl Contract {
 	pub fn new() -> Self {
         assert!(!env::state_exists(), "Already initialized");
         let token = FungibleToken::new(b"a".to_vec());
-        let meta = FungibleTokenMetadata {
-            spec: FT_METADATA_SPEC.to_string(),
-            name: FT_NAME.to_string(),
-            symbol: FT_SYMBOL.to_string(),
-            icon: None,
-            reference: None,
-            reference_hash: None,
-            decimals: 24
-        };
-        let metadata = LazyOption::new(b"m".to_vec(), Some(&meta));
         Self {
-            token,
-            metadata
+            token
 		}
 	}
 
@@ -55,7 +38,15 @@ near_contract_standards::impl_fungible_token_storage!(Contract, token, on_accoun
 #[near_bindgen]
 impl FungibleTokenMetadataProvider for Contract {
     fn ft_metadata(&self) -> FungibleTokenMetadata {
-        self.metadata.get().unwrap()
+        FungibleTokenMetadata {
+            spec: FT_METADATA_SPEC.to_string(),
+            name: "My Cool Pretty Token".to_string(),
+            symbol: "COOL".to_string(),
+            icon: None,
+            reference: None,
+            reference_hash: None,
+            decimals: 24
+        }
     }
 }
 
@@ -67,7 +58,7 @@ mod tests {
     use near_contract_standards::storage_management::StorageManagement;
     use near_sdk::json_types::{U128, ValidAccountId};
     use near_sdk::test_utils::{accounts, VMContextBuilder};
-    use near_sdk::{Balance, MockedBlockchain, testing_env};
+    use near_sdk::{MockedBlockchain, testing_env};
     use crate::fungible_token::Contract;
 
     fn get_context(predecessor_account_id: ValidAccountId) -> VMContextBuilder {
@@ -129,5 +120,21 @@ mod tests {
         let balance_2 = contract.ft_balance_of(accounts(2));
         assert_eq!(balance_1, 1000.into());
         assert_eq!(balance_2, 0.into());
+    }
+
+    // try https://nomicon.io/Standards/StorageManagement#1-account-pays-own-registration-fee processing
+    #[test]
+    fn test_register_account () {
+        let mut context = get_context(accounts(1));
+        testing_env!(context.build());
+        let mut contract = Contract::new();
+        let storage_balance_option = contract.storage_balance_of(accounts(1));
+        assert_eq!(storage_balance_option.is_none(), true);
+
+        let storage_balance_bounds = contract.storage_balance_bounds();
+        let balance_bounds_min = storage_balance_bounds.min;
+        let balance_bounds_max = storage_balance_bounds.max.unwrap();
+        assert_eq!(balance_bounds_min, 2350000000000000000000.into());
+        assert_eq!(balance_bounds_max, 2350000000000000000000.into());
     }
 }
