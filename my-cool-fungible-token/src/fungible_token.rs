@@ -45,10 +45,13 @@ mod tests {
     use near_sdk::{MockedBlockchain, testing_env};
     use crate::fungible_token::Contract;
 
+    const ALICE_ACCOUNT_ID:usize = 0;
+    const BOB_ACCOUNT_ID:usize = 1;
+
     fn get_context(predecessor_account_id: ValidAccountId) -> VMContextBuilder {
         let mut builder = VMContextBuilder::new();
         builder
-            .current_account_id(accounts(0))
+            .current_account_id(accounts(ALICE_ACCOUNT_ID))
             .signer_account_id(predecessor_account_id.clone())
             .predecessor_account_id(predecessor_account_id);
         builder
@@ -57,14 +60,14 @@ mod tests {
     #[test]
     #[should_panic(expected = "The contract is not initialized")]
     fn test_default() {
-        let context = get_context(accounts(1));
+        let context = get_context(accounts(ALICE_ACCOUNT_ID));
         testing_env!(context.build());
         let _contract = Contract::default();
     }
 
     #[test]
     fn test_new() {
-        let mut context = get_context(accounts(1));
+        let mut context = get_context(accounts(ALICE_ACCOUNT_ID));
         testing_env!(context.build());
         let contract = Contract::new();
         testing_env!(context.is_view(true).build());
@@ -78,21 +81,21 @@ mod tests {
 
     #[test]
     fn test_transfer() {
-        let mut context = get_context(accounts(1));
+        let mut context = get_context(accounts(ALICE_ACCOUNT_ID));
         testing_env!(context.build());
         let mut contract = Contract::new();
 
-        contract.token.internal_register_account(accounts(1).as_ref());
-        contract.token.internal_register_account(accounts(2).as_ref());
+        contract.token.internal_register_account(accounts(ALICE_ACCOUNT_ID).as_ref());
+        contract.token.internal_register_account(accounts(BOB_ACCOUNT_ID).as_ref());
 
-        contract.token.internal_deposit(accounts(2).as_ref(), 1000);
+        contract.token.internal_deposit(accounts(ALICE_ACCOUNT_ID).as_ref(), 1000);
 
         testing_env!(context
             .storage_usage(env::storage_usage())
             .attached_deposit(1)
-            .predecessor_account_id(accounts(2))
+            .predecessor_account_id(accounts(ALICE_ACCOUNT_ID))
             .build());
-        contract.ft_transfer(accounts(1), 1000.into(), None);
+        contract.ft_transfer(accounts(BOB_ACCOUNT_ID), 1000.into(), None);
 
         testing_env!(context
             .storage_usage(env::storage_usage())
@@ -100,19 +103,20 @@ mod tests {
             .is_view(true)
             .attached_deposit(0)
             .build());
-        let balance_1 = contract.ft_balance_of(accounts(1));
-        let balance_2 = contract.ft_balance_of(accounts(2));
-        assert_eq!(balance_1, 1000.into());
-        assert_eq!(balance_2, 0.into());
+        let balance_1 = contract.ft_balance_of(accounts(ALICE_ACCOUNT_ID));
+        let balance_2 = contract.ft_balance_of(accounts(BOB_ACCOUNT_ID));
+        assert_eq!(balance_1, 0.into());
+        assert_eq!(balance_2, 1000.into());
     }
 
     // try https://nomicon.io/Standards/StorageManagement#1-account-pays-own-registration-fee processing
     #[test]
     fn test_register_account () {
-        let mut context = get_context(accounts(1));
+
+        let mut context = get_context(accounts(ALICE_ACCOUNT_ID));
         testing_env!(context.build());
         let mut contract = Contract::new();
-        let storage_balance_option = contract.storage_balance_of(accounts(1));
+        let storage_balance_option = contract.storage_balance_of(accounts(ALICE_ACCOUNT_ID));
         assert_eq!(storage_balance_option.is_none(), true);
 
         let storage_balance_bounds = contract.storage_balance_bounds();
@@ -123,11 +127,42 @@ mod tests {
         testing_env!(context
             .storage_usage(env::storage_usage())
             .attached_deposit(balance_bounds_min)
-            .predecessor_account_id(accounts(1))
+            .predecessor_account_id(accounts(ALICE_ACCOUNT_ID))
             .build());
 
-        let storage_deposit = contract.storage_deposit(accounts(1).into(), None);
+        let storage_deposit = contract.storage_deposit(accounts(ALICE_ACCOUNT_ID).into(), None);
         assert_eq!(storage_deposit.available.0, 0);
         assert_eq!(storage_deposit.total.0, balance_bounds_min);
+    }
+
+    // try https://nomicon.io/Standards/StorageManagement#2-account-pays-for-another-accounts-storage processing
+    #[test]
+    fn test_another_account () {
+        let mut context = get_context(accounts(ALICE_ACCOUNT_ID));
+        testing_env!(context.build());
+        let mut contract = Contract::new();
+
+        let balance_bounds_min = contract.storage_balance_bounds().min.0;
+
+        testing_env!(context
+            .storage_usage(env::storage_usage())
+            .attached_deposit(balance_bounds_min)
+            .predecessor_account_id(accounts(ALICE_ACCOUNT_ID))
+            .build());
+
+        let storage_deposit = contract.storage_deposit(accounts(BOB_ACCOUNT_ID).into(), None);
+        assert_eq!(storage_deposit.available.0, 0);
+        assert_eq!(storage_deposit.total.0, balance_bounds_min);
+
+        testing_env!(context
+            .storage_usage(env::storage_usage())
+            .attached_deposit(balance_bounds_min)
+            .predecessor_account_id(accounts(ALICE_ACCOUNT_ID))
+            .build());
+
+        let storage_deposit2 = contract.storage_deposit(accounts(BOB_ACCOUNT_ID).into(), None);
+        assert_eq!(storage_deposit2.available.0, 0);
+        assert_eq!(storage_deposit2.total.0, balance_bounds_min);
+
     }
 }
