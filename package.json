@@ -18,7 +18,7 @@
     "ft:build": "cargo build --target wasm32-unknown-unknown --release --manifest-path ./my-cool-fungible-token/Cargo.toml",
     "ft:dev-deploy": "yarn ft:build && near dev-deploy --wasmFile ./my-cool-fungible-token/target/wasm32-unknown-unknown/release/my_cool_fungible_token.wasm --helperUrl https://near-contract-helper.onrender.com",
     "ft:dev-new": "yarn ft:build && yarn ft:dev-deploy && source neardev/dev-account.env && echo $CONTRACT_NAME",
-    "ft:deploy": "yarn ft:compile && near deploy --wasmFile ./my-cool-fungible-token/target/wasm32-unknown-unknown/release/my_cool_fungible_token.wasm --accountId testerman-testnet.testnet"
+    "ft:deploy": "yarn ft:build && near deploy --wasmFile ./my-cool-fungible-token/target/wasm32-unknown-unknown/release/my_cool_fungible_token.wasm --accountId testerman-testnet.testnet"
   },
   "devDependencies": {
     "near-cli": "^3.2.0"
