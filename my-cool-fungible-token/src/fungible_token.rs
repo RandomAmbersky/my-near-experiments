@@ -1,7 +1,6 @@
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::{PanicOnDefault, near_bindgen, env, Balance, log, AccountId, PromiseOrValue};
 use near_contract_standards::fungible_token::FungibleToken;
-use near_contract_standards::fungible_token::metadata::{FT_METADATA_SPEC, FungibleTokenMetadata, FungibleTokenMetadataProvider};
 use near_sdk::json_types::{ValidAccountId, U128};
 
 near_sdk::setup_alloc!();
@@ -34,21 +33,6 @@ impl Contract {
 
 near_contract_standards::impl_fungible_token_core!(Contract, token, on_tokens_burned);
 near_contract_standards::impl_fungible_token_storage!(Contract, token, on_account_closed);
-
-#[near_bindgen]
-impl FungibleTokenMetadataProvider for Contract {
-    fn ft_metadata(&self) -> FungibleTokenMetadata {
-        FungibleTokenMetadata {
-            spec: FT_METADATA_SPEC.to_string(),
-            name: "My Cool Pretty Token".to_string(),
-            symbol: "COOL".to_string(),
-            icon: None,
-            reference: None,
-            reference_hash: None,
-            decimals: 24
-        }
-    }
-}
 
 #[cfg(all(test, not(target_arch = "wasm32")))]
 mod tests {
