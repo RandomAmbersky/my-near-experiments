@@ -1,10 +1,10 @@
 import React from 'react'
 
-export default function Login({ isSigned }) {
+export default function Login({ isSigned, onClickLogin, onClickLogout }) {
 	return (
 		<>
-			{isSigned && <h1>Ok</h1>}
-			{!isSigned && <h1>Please connect with Near</h1>}
+			{isSigned && <button onClick={onClickLogout}>Logout</button>}
+			{!isSigned && <h1>Please login with <button onClick={onClickLogin}>Near</button></h1>}
 		</>
 	)
 }

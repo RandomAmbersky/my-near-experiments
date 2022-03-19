@@ -13,7 +13,6 @@ const newContract = ({ account, contractName }) => {
 			],
 		}
 	)
-
 }
 
 const getGreeting = async ({ contract, accountId }) => {

@@ -2,45 +2,74 @@ import * as nearApi from "./api/near";
 import * as contractApi from "./api/contract";
 import getConfig from "./config";
 import {useEffect, useState} from "react";
+import * as nearAPI from "near-api-js";
+import walletApi from "./api/wallet";
 
 const config = getConfig(process.env.NODE_ENV || 'development')
 
 /**
  * @returns {Promise<{
- * accountId: String,
- * isSigned: boolean,
  * contract: Object,
- * isConnected: boolean
+ * wallet: Object,
+ * isConnected: boolean,
+ * isSigned: boolean
  * }>}
  */
-const initContext = async () => {
-	const resp = await nearApi.initNear(config)
-	const isSigned = await nearApi.isLoginNear({
-		walletConnection: resp.walletConnection
-	})
+const initContext = async (nearConfig) => {
+	const keyStore = new nearAPI.keyStores.BrowserLocalStorageKeyStore()
+	const near = await nearAPI.connect(
+		Object.assign({
+			deps: { keyStore }
+		}, nearConfig)
+	)
+
+	const walletConnection = new nearAPI.WalletConnection(
+		near,
+		nearConfig.contractName
+	)
+
+	// account
+	const account = walletConnection.account()
+	const accountId = walletConnection.getAccountId()
+
+	// contract
 	const contract = await contractApi.newContract({
-		account: resp.account,
-		contractName: config.contractName
+		account,
+		contractName: nearConfig.contractName
 	})
-	const respGreeting = await contractApi.getGreeting({
-		contract,
-		accountId: resp.accountId
+
+	// wallet
+	const isSigned = await walletApi.isLoginNear({
+		wallet: walletConnection
 	})
-	console.log('respGreeting:', respGreeting)
+
+	// call contract
+	// const respGreeting = await contractApi.getGreeting({
+	// 	contract,
+	// 	accountId: resp.accountId
+	// })
+	// console.log('respGreeting:', respGreeting)
+
 	return {
-		accountId: resp.accountId,
+		wallet: walletConnection,
 		contract,
-		isSigned,
-		isConnected: true
+		accountId,
+		isConnected: true,
+		isSigned
 	}
 }
 
-const useCtx = () => {
-	console.log('useCtx...')
-	const [ctx, setCtx] = useState({})
+const useInitNear = () => {
+	console.log('useInitNear...')
+	const [ctx, setCtx] = useState({
+		contract: undefined,
+		wallet: undefined,
+		isConnected: false,
+		isSigned: false
+	})
 
 	useEffect(() => {
-		initContext()
+		initContext(config)
 			.then(ctx => setCtx(ctx))
 			.catch(error => {
 				console.log(error)
@@ -50,4 +79,4 @@ const useCtx = () => {
 	return ctx
 }
 
-export default useCtx
+export default useInitNear
