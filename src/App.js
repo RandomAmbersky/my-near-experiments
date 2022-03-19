@@ -2,9 +2,22 @@ import 'regenerator-runtime/runtime'
 import React from 'react'
 import './global.css'
 
-import NoLoginPage from "./components/NoLoginPage";
-import WithConnectionPage from "./components/WithConnectionPage";
+import Login from './components/Login'
 
-export default function App() {
-  return window.walletConnection.isSignedIn() ? <WithConnectionPage /> : <NoLoginPage/>
+import useCtx from "./useCtx";
+
+const App = () => {
+  console.log('App...')
+
+  const ctx = useCtx()
+  console.log('ctx:', ctx)
+
+  return (
+    <>
+      {ctx.isConnected && <Login isSigned={ctx.isSigned} />}
+      {!ctx.isConnected && <h1>notConnected</h1>}
+    </>
+  )
 }
+
+export default App
