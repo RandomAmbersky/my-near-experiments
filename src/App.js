@@ -52,6 +52,8 @@ const App = () => {
     document.location.reload();
   }
 
+  console.log(greetingStr)
+
   return (
     <>
       {!isConnected && <h1>notConnected</h1>}
@@ -61,7 +63,14 @@ const App = () => {
         onClickLogin={doLogin}
         onClickLogout={doLogout}
       />}
-      {isSigned && <h2>{greetingStr}</h2>}
+      {isSigned && <main>
+        <input
+          key={greetingStr}
+          autoComplete="off"
+          defaultValue={greetingStr}
+          id="greeting"
+        />
+      </main>}
     </>
   )
 }
