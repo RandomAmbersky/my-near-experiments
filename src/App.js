@@ -44,8 +44,8 @@ const App = () => {
 
   return (
     <>
-      {accountId}
       {isConnected && <Login
+        accountId={accountId}
         isSigned={isSigned}
         onClickLogin={doLogin}
         onClickLogout={doLogout}
