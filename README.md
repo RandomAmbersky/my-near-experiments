@@ -100,3 +100,11 @@ On Windows, if you're seeing an error containing `EPERM` it may be related to sp
   [NEAR Wallet]: https://wallet.testnet.near.org/
   [near-cli]: https://github.com/near/near-cli
   [gh-pages]: https://github.com/tschaub/gh-pages
+
+
+
+субаккаунт:
+
+```shell
+   near create-account ft.randomambersky-test.testnet  --masterAccount randomambersky-test.testnet
+```
