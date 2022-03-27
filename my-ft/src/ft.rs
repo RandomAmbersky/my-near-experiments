@@ -6,6 +6,11 @@ use near_sdk::{env, near_bindgen};
 
 #[near_bindgen]
 impl MyPrettyFungibleToken {
+
+    pub fn get_total_supply(self) -> U128 {
+        self.ft.ft_total_supply()
+    }
+
     /// Deposit NEAR to mint wNEAR tokens to the predecessor account in this contract.
     /// Requirements:
     /// * The predecessor account doesn't need to be registered.
@@ -45,6 +50,7 @@ impl MyPrettyFungibleToken {
         let balance: Balance = self.ft.internal_unwrap_balance_of(&account_id);
         log!("Withdraw {} / {} yoctoNEAR from {}", amount, balance, account_id);
         // Transferring NEAR and refunding 1 yoctoNEAR.
-        Promise::new(account_id).transfer(amount + 1)
+        Promise::new(account_id)
+          .transfer(amount + 1)
     }
 }

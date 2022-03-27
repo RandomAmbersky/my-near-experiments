@@ -3,9 +3,11 @@ mod ft;
 use near_contract_standards::fungible_token::FungibleToken;
 use near_contract_standards::fungible_token::metadata::{FT_METADATA_SPEC, FungibleTokenMetadata, FungibleTokenMetadataProvider};
 
-use near_sdk::{near_bindgen};
+use near_sdk::{env, near_bindgen};
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::{PanicOnDefault};
+use near_sdk::{AccountId, PromiseOrValue};
+use near_sdk::json_types::{U128};
 
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
@@ -17,11 +19,18 @@ pub struct MyPrettyFungibleToken {
 impl MyPrettyFungibleToken {
 	#[init]
 	pub fn new() -> Self {
-		Self {
+		let account_id = env::predecessor_account_id();
+		let mut this = Self {
 			ft: FungibleToken::new(b"a".to_vec()),
-		}
+		};
+		this.ft.internal_register_account(&account_id);
+		this.ft.internal_deposit(&account_id, 0);
+		this
 	}
 }
+
+near_contract_standards::impl_fungible_token_core!(MyPrettyFungibleToken, ft);
+near_contract_standards::impl_fungible_token_storage!(MyPrettyFungibleToken, ft);
 
 #[near_bindgen]
 impl FungibleTokenMetadataProvider for MyPrettyFungibleToken {
