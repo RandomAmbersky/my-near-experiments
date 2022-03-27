@@ -1,11 +1,11 @@
 mod ft;
 
 use near_contract_standards::fungible_token::FungibleToken;
+use near_contract_standards::fungible_token::events::{ FtMint };
 use near_contract_standards::fungible_token::metadata::{FT_METADATA_SPEC, FungibleTokenMetadata, FungibleTokenMetadataProvider};
-use near_sdk::json_types::{ValidAccountId, U128};
+use near_sdk::json_types::{U128};
 
 use near_sdk::{near_bindgen};
-near_sdk::setup_alloc!();
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::{env, PanicOnDefault, PromiseOrValue, AccountId};
 
@@ -19,9 +19,17 @@ pub struct MyPrettyFungibleToken {
 impl MyPrettyFungibleToken {
 	#[init]
 	pub fn new() -> Self {
-		Self {
+		let owner_id = env::predecessor_account_id();
+		let total_supply = 0;
+		let this = Self {
 			ft: FungibleToken::new(b"a".to_vec()),
-		}
+		};
+		FtMint {
+			owner_id: &owner_id,
+			amount: &total_supply.into(),
+			memo: Some("Initial tokens supply is minted"),
+		}.emit();
+		this
 	}
 }
 

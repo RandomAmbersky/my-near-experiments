@@ -1,4 +1,3 @@
-use std::convert::TryInto;
 use near_contract_standards::storage_management::StorageManagement;
 use crate::*;
 use near_sdk::json_types::U128;
@@ -28,7 +27,7 @@ impl MyPrettyFungibleToken {
             amount -= self.ft.storage_balance_bounds().min.0;
         }
         self.ft.internal_deposit(&account_id, amount);
-        log!("Deposit {} NEAR to {}", amount, account_id);
+        log!("Deposit {} yoctoNEAR to {}", amount, account_id);
     }
 
     /// Withdraws wNEAR and send NEAR back to the predecessor account.
@@ -43,8 +42,7 @@ impl MyPrettyFungibleToken {
         let account_id = env::predecessor_account_id();
         let amount = amount.into();
         self.ft.internal_withdraw(&account_id, amount);
-        let acc: ValidAccountId = account_id.clone().try_into().unwrap();
-        let balance: Balance = self.ft.ft_balance_of(acc).into();
+        let balance: Balance = self.ft.internal_unwrap_balance_of(&account_id);
         log!("Withdraw {} / {} yoctoNEAR from {}", amount, balance, account_id);
         // Transferring NEAR and refunding 1 yoctoNEAR.
         Promise::new(account_id).transfer(amount + 1)

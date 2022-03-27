@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "license": "UNLICENSED",
   "scripts": {
+    "ft:create": "yarn near create-account ft.randomambersky-test.testnet --masterAccount randomambersky-test.testnet --initialBalance 20.000000000000000000000001",
+    "ft:delete": "yarn near delete ft.randomambersky-test.testnet randomambersky-test.testnet",
     "ft:build": "cargo build --manifest-path ./my-ft/Cargo.toml --target wasm32-unknown-unknown --release",
     "ft:deploy": "yarn near deploy --wasmFile ./my-ft/target/wasm32-unknown-unknown/release/my_ft.wasm --accountId ft.randomambersky-test.testnet",
     "ft:new": "yarn near call ft.randomambersky-test.testnet new --account-id randomambersky-test.testnet",
