@@ -1,5 +1,3 @@
-mod ft;
-
 use near_contract_standards::fungible_token::FungibleToken;
 use near_contract_standards::fungible_token::metadata::{FT_METADATA_SPEC, FungibleTokenMetadata, FungibleTokenMetadataProvider};
 
@@ -24,10 +22,10 @@ impl MyPrettyFungibleToken {
 	pub fn new() -> Self {
 		let account_id = env::predecessor_account_id();
 		let mut this = Self {
-			ft: FungibleToken::new(b"a".to_vec()),
+			ft: FungibleToken::new(b"a".to_vec())
 		};
 		this.ft.internal_register_account(&account_id);
-		this.ft.internal_deposit(&account_id, 5000);
+		this.ft.internal_deposit(&account_id, 0);
 		this
 	}
 
@@ -54,7 +52,7 @@ impl FungibleTokenMetadataProvider for MyPrettyFungibleToken {
 			icon: None,
 			reference: None,
 			reference_hash: None,
-			decimals: 1,
+			decimals: 0,
 		}
 	}
 }
