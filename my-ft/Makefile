@@ -1,16 +1,34 @@
 SCRIPT=./pipeline.sh
-#CONTRACT_NAME=dev-1651481257651-28800189424577
-#SHELL := /bin/bash
+TEST_ID=randomambersky-test.testnet
+TEST_AMOUNT=20
 
-#pipeline: build dev-deploy
+test: build dev-deploy dev-new
 
 build:
 	$(SCRIPT) build
 
 dev-deploy:
 	$(SCRIPT) dev-deploy
-#	near dev-deploy ./my-ft/target/wasm32-unknown-unknown/release/my_ft.wasm
 
+dev-new:
+	$(SCRIPT) dev-new
+
+dev-view:
+	$(SCRIPT) dev-view
+
+dev-storage-deposit:
+	$(SCRIPT) dev-storage-deposit '$(TEST_ID)'
+
+dev-balance:
+	$(SCRIPT) dev-balance '$(TEST_ID)'
+
+dev-transfer:
+	$(SCRIPT) dev-transfer '$(TEST_ID)' '$(TEST_AMOUNT)'
+
+dev-delete:
+	$(SCRIPT) dev-delete '$(TEST_ID)'
+
+#	near dev-deploy ./my-ft/target/wasm32-unknown-unknown/release/my_ft.wasm
 
 #build:
 #	cargo build --manifest-path ./Cargo.toml --target wasm32-unknown-unknown --release

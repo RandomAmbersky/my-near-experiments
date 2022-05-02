@@ -25,7 +25,7 @@ impl MyPrettyFungibleToken {
 			ft: FungibleToken::new(b"a".to_vec())
 		};
 		this.ft.internal_register_account(&account_id);
-		this.ft.internal_deposit(&account_id, 0);
+		this.ft.internal_deposit(&account_id, 100000);
 		this
 	}
 
