@@ -12,6 +12,7 @@
     "ft:pipeline": "yarn ft:create && yarn ft:build && yarn ft:deploy && yarn ft:new && yarn ft:supply",
     "ft:balance": "yarn near view ft.randomambersky-test.testnet ft_balance_of '{\"account_id\": \"testerman2.testnet\"}'",
     "ft:storage-balance": "yarn near view ft.randomambersky-test.testnet storage_balance_of '{\"account_id\": \"testerman2.testnet\"}'",
+    "ft:storage-balance2": "yarn near view ft.randomambersky-test.testnet storage_balance_of '{\"account_id\": \"randomambersky-test.testnet\"}'",
     "ft:storage-balance-bounds": "yarn near view ft.randomambersky-test.testnet storage_balance_bounds '{\"account_id\": \"testerman2.testnet\"}'",
     "ft:storage-deposit": "yarn near call ft.randomambersky-test.testnet storage_deposit '{\"account_id\": \"testerman2.testnet\"}' --accountId testerman2.testnet --deposit 0.001250000000000000000000",
     "ft:transfer": "yarn near call ft.randomambersky-test.testnet ft_transfer '{\"receiver_id\": \"testerman2.testnet\", \"amount\": \"1\"}' --accountId ft.randomambersky-test.testnet --amount 0.000000000000000000000001",
@@ -34,8 +35,8 @@
     "test": "yarn build:contract:debug && cd contract && cargo test -- --nocapture && cd .. && jest test --runInBand"
   },
   "devDependencies": {
-    "@babel/core": "7.17.8",
-    "@babel/preset-env": "7.16.11",
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
     "@babel/preset-react": "7.16.7",
     "babel-jest": "27.5.1",
     "env-cmd": "~10.1.0",
@@ -43,15 +44,15 @@
     "jest": "27.5.1",
     "jest-environment-node": "27.5.1",
     "near-cli": "3.2.0",
-    "nodemon": "~2.0.3",
+    "nodemon": "^2.0.16",
     "parcel-bundler": "~1.12.4",
-    "react-test-renderer": "~17.0.1",
+    "react-test-renderer": "^18.1.0",
     "shelljs": "~0.8.4"
   },
   "dependencies": {
     "near-api-js": "0.44.2",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "regenerator-runtime": "~0.13.5"
   },
   "resolutions": {
