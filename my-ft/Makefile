@@ -2,7 +2,7 @@ SCRIPT=./pipeline.sh
 TEST_ID=randomambersky-test.testnet
 TEST_AMOUNT=20
 
-test: build dev-deploy dev-new
+init: build dev-deploy dev-new
 
 build:
 	$(SCRIPT) build
@@ -24,6 +24,9 @@ dev-balance:
 
 dev-transfer:
 	$(SCRIPT) dev-transfer '$(TEST_ID)' '$(TEST_AMOUNT)'
+
+dev-mint:
+	$(SCRIPT) dev-mint '$(TEST_ID)' '$(TEST_AMOUNT)'
 
 dev-delete:
 	$(SCRIPT) dev-delete '$(TEST_ID)'

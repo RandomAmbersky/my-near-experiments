@@ -39,10 +39,23 @@ function dev_transfer () {
   yarn near call "$CONTRACT_NAME" ft_transfer '{"receiver_id": "'"$ID"'", "amount": "'"$AMOUNT"'"}' --accountId "$CONTRACT_NAME" --amount 0.000000000000000000000001
 }
 
+function dev_mint () {
+  ID=$1
+  AMOUNT=$2
+  echo "$ID -> $AMOUNT"
+  source ../neardev/dev-account.env
+  yarn near call "$CONTRACT_NAME" ft_mint '{"receiver_id": "'"$ID"'", "amount": "'"$AMOUNT"'"}' --accountId "$CONTRACT_NAME" --amount 0.000000000000000000000001
+}
+
 function dev_delete () {
   BENEFICIARY_ID=$1
   source ../neardev/dev-account.env
   yarn near delete "$CONTRACT_NAME" "$BENEFICIARY_ID"
+}
+
+function get_owner() {
+  source ../neardev/dev-account.env
+  yarn near view "$CONTRACT_NAME" get_owner
 }
 
 function empty() {
@@ -53,6 +66,8 @@ function main() {
 
   if [ "$1" == "build" ]; then
     build
+  elif [ "$1" == "get-owner" ]; then
+    get_owner
   elif [ "$1" == "dev-deploy" ]; then
     dev_deploy
   elif [ "$1" == "dev-new" ]; then
@@ -67,6 +82,8 @@ function main() {
     dev_transfer "$2" "$3"
   elif [ "$1" == "dev-delete" ]; then
     dev_delete "$2"
+  elif [ "$1" == "dev-mint" ]; then
+    dev_mint "$2" "$3"
   else
     empty "$1" "$2" "$3"
   fi
