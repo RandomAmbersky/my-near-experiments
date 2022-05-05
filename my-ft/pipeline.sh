@@ -1,9 +1,11 @@
+NEAR=$(yarn bin near)
+
 function build () {
   cargo build --manifest-path ./Cargo.toml --target wasm32-unknown-unknown --release
 }
 
 function dev_deploy() {
-  yarn near dev-deploy --wasmFile ./my-ft/target/wasm32-unknown-unknown/release/my_ft.wasm
+  $NEAR dev-deploy --wasmFile ./target/wasm32-unknown-unknown/release/my_ft.wasm
 }
 
 function dev_new() {
@@ -49,8 +51,8 @@ function dev_mint () {
 
 function dev_delete () {
   BENEFICIARY_ID=$1
-  source ../neardev/dev-account.env
-  yarn near delete "$CONTRACT_NAME" "$BENEFICIARY_ID"
+  source ./neardev/dev-account.env
+  $NEAR delete "$CONTRACT_NAME" "$BENEFICIARY_ID"
 }
 
 function get_owner() {
