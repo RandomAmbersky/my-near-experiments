@@ -5,7 +5,7 @@ function do_import_env() {
   # token name
   TOKEN_ID="$CONTRACT_NAME"
 
-  # creator user name
+#   creator user name
   BENEFICIARY_ID="randomambersky-test.testnet"
 
   # wnear contract name
@@ -21,7 +21,7 @@ function do_import_env() {
 }
 
 function add_pool() {
-  $NEAR call "$REF_FINANCE_ID" add_simple_pool '{"tokens": ["'$TOKEN_ID'", "'$WNEAR'"], "fee": 25}' --accountId $BENEFICIARY_ID --amount 0.1
+  $NEAR call $REF_FINANCE_ID add_simple_pool '{"tokens": ["'$TOKEN_ID'", "'$WNEAR'"], "fee": 25}' --accountId $BENEFICIARY_ID --amount 0.1
 }
 
 #function view_pools() {
@@ -52,6 +52,7 @@ function get_deposits() {
 function deposit_funds() {
   deposit_funds_part1
   deposit_funds_part2
+  deposit_funds_part3
 }
 
 function deposit_funds_part1() {

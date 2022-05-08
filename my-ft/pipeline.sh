@@ -1,61 +1,74 @@
 NEAR=$(yarn bin near)
 
+CUR_DIR="$(dirname "$0")"
+
 function do_import_env() {
-    source ./neardev/dev-account.env
+  ENV_FILE_PATH="$CUR_DIR/neardev/dev-account.env"
+
+  if [ -f "$ENV_FILE_PATH" ]; then
+    source "${ENV_FILE_PATH}"
+  fi
+
+  # token name
+  TOKEN_ID="$CONTRACT_NAME"
+  echo "$TOKEN_ID"
 }
 
+
 function build () {
-  cargo build --manifest-path ./Cargo.toml --target wasm32-unknown-unknown --release
+  cargo build --manifest-path "$CUR_DIR/Cargo.toml" --target wasm32-unknown-unknown --release
 }
 
 function dev_deploy() {
-  $NEAR dev-deploy --wasmFile ./target/wasm32-unknown-unknown/release/my_ft.wasm
+  $NEAR dev-deploy --wasmFile "$CUR_DIR/target/wasm32-unknown-unknown/release/my_ft.wasm"
 }
 
-function dev_new() {
-  echo "$CONTRACT_NAME"
-  $NEAR call "$CONTRACT_NAME" new --accountId "$CONTRACT_NAME"
+function new() {
+  echo "$TOKEN_ID"
+  $NEAR call "$TOKEN_ID" new --accountId "$TOKEN_ID"
 }
 
 function dev_view () {
-    yarn near view "$CONTRACT_NAME" ft_metadata
+    yarn near view "$TOKEN_ID" ft_metadata
 }
 
 function dev_storage_deposit () {
-  ID=$1
-  echo "$ID"
+  BENEFICIARY_ID=$1
+  echo "$BENEFICIARY_ID"
   do_import_env
-  $NEAR call "$CONTRACT_NAME" storage_deposit '' --accountId "$ID" --amount 0.00125
+  $NEAR call "$TOKEN_ID" storage_deposit '' --accountId "$BENEFICIARY_ID" --amount 0.00125
 }
 
-function dev_balance () {
-  ID=$1
-  echo "$ID"
-  $NEAR view "$CONTRACT_NAME" ft_balance_of '{"account_id": "'"$ID"'"}'
+function balance () {
+  TOKEN_ID=$1
+  BENEFICIARY_ID=$2
+  echo "$BENEFICIARY_ID"
+  $NEAR view "$TOKEN_ID" ft_balance_of '{"account_id": "'"$BENEFICIARY_ID"'"}'
 }
 
 function dev_transfer () {
-  ID=$1
+  BENEFICIARY_ID=$1
   AMOUNT=$2
-  echo "$ID -> $AMOUNT"
-  $NEAR call "$CONTRACT_NAME" ft_transfer '{"receiver_id": "'"$ID"'", "amount": "'"$AMOUNT"'"}' --accountId "$CONTRACT_NAME" --amount 0.000000000000000000000001
+  echo "$BENEFICIARY_ID -> $AMOUNT"
+  $NEAR call "$TOKEN_ID" ft_transfer --accountId "$TOKEN_ID" '{"receiver_id": "'"$BENEFICIARY_ID"'", "amount": "'"$AMOUNT"'"}' --depositYocto=1
 }
 
 function dev_mint () {
-  ID=$1
+  BENEFICIARY_ID=$1
   AMOUNT=$2
-  echo "$ID -> $AMOUNT"
-  $NEAR call "$CONTRACT_NAME" ft_mint '{"receiver_id": "'"$ID"'", "amount": "'"$AMOUNT"'"}' --accountId "$CONTRACT_NAME" --amount 0.000000000000000000000001
+  echo "$BENEFICIARY_ID -> $AMOUNT"
+  $NEAR call "$TOKEN_ID" ft_mint --accountId "$BENEFICIARY_ID" '{"receiver_id": "'"$BENEFICIARY_ID"'", "amount": "'"$AMOUNT"'"}' --depositYocto=1
 }
 
-function dev_delete () {
-  BENEFICIARY_ID=$1
-  $NEAR delete "$CONTRACT_NAME" "$BENEFICIARY_ID"
+function delete () {
+  TOKEN_ID=$1
+  BENEFICIARY_ID=$2
+  $NEAR delete "$TOKEN_ID" "$BENEFICIARY_ID"
 }
 
 #function get_owner() {
 #  do_import_env
-#  $NEAR view "$CONTRACT_NAME" get_owner
+#  $NEAR view "$TOKEN_ID" get_owner
 #}
 
 function empty() {
@@ -70,18 +83,18 @@ function main() {
 #    get_owner
   elif [ "$1" == "dev-deploy" ]; then
     dev_deploy
-  elif [ "$1" == "dev-new" ]; then
-    dev_new
+  elif [ "$1" == "new" ]; then
+    new
   elif [ "$1" == "dev-view" ]; then
     dev_view
   elif [ "$1" == "dev-storage-deposit" ]; then
     dev_storage_deposit "$2"
-  elif [ "$1" == "dev-balance" ]; then
-    dev_balance "$2"
+  elif [ "$1" == "balance" ]; then
+    balance "$TOKEN_ID" "$2"
   elif [ "$1" == "dev-transfer" ]; then
     dev_transfer "$2" "$3"
-  elif [ "$1" == "dev-delete" ]; then
-    dev_delete "$2"
+  elif [ "$1" == "delete" ]; then
+    delete "$TOKEN_ID" "$2"
   elif [ "$1" == "dev-mint" ]; then
     dev_mint "$2" "$3"
   else
