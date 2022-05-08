@@ -39,6 +39,10 @@ function dev_storage_deposit () {
   $NEAR call "$TOKEN_ID" storage_deposit '' --accountId "$BENEFICIARY_ID" --amount 0.00125
 }
 
+function token_balance () {
+  $NEAR view "$TOKEN_ID" ft_balance_of '{"account_id": "'"$TOKEN_ID"'"}'
+}
+
 function balance () {
   BENEFICIARY_ID=$1
   echo "$BENEFICIARY_ID"
@@ -89,6 +93,8 @@ function main() {
     dev_storage_deposit "$2"
   elif [ "$1" == "balance" ]; then
     balance "$2"
+  elif [ "$1" == "token_balance" ]; then
+    token_balance
   elif [ "$1" == "dev-transfer" ]; then
     dev_transfer "$2" "$3"
   elif [ "$1" == "delete" ]; then

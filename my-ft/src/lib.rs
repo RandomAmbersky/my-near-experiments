@@ -10,6 +10,8 @@ use near_sdk::json_types::{U128};
 const FT_METADATA_NAME: &str = "Eternal Lands Gold Token";
 const FT_METADATA_SYMBOL: &str = "elGOLD";
 
+const INITIAL_REF_AMOUNT: u128 = 10000000;
+
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
 pub struct MyPrettyFungibleToken {
@@ -25,7 +27,7 @@ impl MyPrettyFungibleToken {
 			ft: FungibleToken::new(b"a".to_vec())
 		};
 		this.ft.internal_register_account(&account_id);
-		this.ft.internal_deposit(&account_id, 0);
+		this.ft.internal_deposit(&account_id, INITIAL_REF_AMOUNT.to_owned());
 		this
 	}
 }
