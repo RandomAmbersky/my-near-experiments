@@ -1,7 +1,7 @@
 BENEFICIARY_ID=randomambersky-test.testnet
 FT_CMD=./my-ft/pipeline.sh
 
-deploy-ft:
+ft-deploy:
 	$(FT_CMD) build
 	$(FT_CMD) dev-deploy # testnet only
 	mv ./neardev ./my-ft
@@ -10,6 +10,6 @@ deploy-ft:
 balance:
 	$(FT_CMD) balance '$(BENEFICIARY_ID)'
 
-delete-ft:
+ft-delete:
 	$(FT_CMD) delete '$(BENEFICIARY_ID)'
 	rm -rf ./my-ft/neardev

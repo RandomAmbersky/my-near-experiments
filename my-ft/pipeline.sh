@@ -40,8 +40,7 @@ function dev_storage_deposit () {
 }
 
 function balance () {
-  TOKEN_ID=$1
-  BENEFICIARY_ID=$2
+  BENEFICIARY_ID=$1
   echo "$BENEFICIARY_ID"
   $NEAR view "$TOKEN_ID" ft_balance_of '{"account_id": "'"$BENEFICIARY_ID"'"}'
 }
@@ -61,8 +60,7 @@ function dev_mint () {
 }
 
 function delete () {
-  TOKEN_ID=$1
-  BENEFICIARY_ID=$2
+  BENEFICIARY_ID=$1
   $NEAR delete "$TOKEN_ID" "$BENEFICIARY_ID"
 }
 
@@ -90,11 +88,11 @@ function main() {
   elif [ "$1" == "dev-storage-deposit" ]; then
     dev_storage_deposit "$2"
   elif [ "$1" == "balance" ]; then
-    balance "$TOKEN_ID" "$2"
+    balance "$2"
   elif [ "$1" == "dev-transfer" ]; then
     dev_transfer "$2" "$3"
   elif [ "$1" == "delete" ]; then
-    delete "$TOKEN_ID" "$2"
+    delete "$2"
   elif [ "$1" == "dev-mint" ]; then
     dev_mint "$2" "$3"
   else
