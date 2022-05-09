@@ -1,5 +1,4 @@
 NEAR=$(yarn bin near)
-
 CUR_DIR="$(dirname "$0")"
 
 function do_import_env() {
