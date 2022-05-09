@@ -21,6 +21,7 @@ pool-deploy:
 balance:
 	$(FT_CMD) token_balance
 	$(FT_CMD) balance '$(BENEFICIARY_ID)'
+	$(POOL_CMD) get_pool ${REF_FINANCE_ID} ${POOL_ID}
 
 ft-delete:
 	$(FT_CMD) delete '$(BENEFICIARY_ID)'
