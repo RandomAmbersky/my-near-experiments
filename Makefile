@@ -22,14 +22,13 @@ pool-deploy:
 	#$(POOL_CMD) storage_deposit ${REF_FINANCE_ID} ${BENEFICIARY_ID}
 	#$(POOL_CMD) register_tokens ${REF_FINANCE_ID} ${BENEFICIARY_ID} ${TOKEN_NAME}
 	$(POOL_CMD) token_deposit_funds ${REF_FINANCE_ID} ${BENEFICIARY_ID} ${TOKEN_NAME} ${AMOUNT}
-  $NEAR call "$TOKEN_NAME" storage_deposit  --accountId "$BENEFICIARY_ID" '{"account_id": "'"$BENEFICIARY_ID"'"}' --amount 0.0125
 
 balance:
-	$(FT_CMD) token_balance
-	$(FT_CMD) balance ${BENEFICIARY_ID}
+	$(FT_CMD) token_balance ${TOKEN_NAME}
+	$(FT_CMD) balance ${TOKEN_NAME} ${BENEFICIARY_ID}
 	$(POOL_CMD) get_pool ${REF_FINANCE_ID} ${POOL_ID}
 	$(POOL_CMD) storage_balance_of ${REF_FINANCE_ID} ${BENEFICIARY_ID}
 
 ft-delete:
-	$(FT_CMD) delete '$(BENEFICIARY_ID)'
+	$(FT_CMD) delete ${TOKEN_NAME} ${BENEFICIARY_ID}
 	rm -rf ./my-ft/neardev
