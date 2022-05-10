@@ -14,15 +14,41 @@ function new() {
   $NEAR call "$TOKEN_NAME" new --accountId "$TOKEN_NAME"
 }
 
-function token_balance () {
-  TOKEN_NAME=$1
-  $NEAR view "$TOKEN_NAME" ft_balance_of '{"account_id": "'"$TOKEN_NAME"'"}'
-}
-
 function balance () {
   TOKEN_NAME=$1
   BENEFICIARY_ID=$2
   $NEAR view "$TOKEN_NAME" ft_balance_of '{"account_id": "'"$BENEFICIARY_ID"'"}'
+}
+
+function storage_balance () {
+  TOKEN_NAME=$1
+  BENEFICIARY_ID=$2
+  $NEAR view "$TOKEN_NAME" storage_balance_of '{"account_id": "'"$BENEFICIARY_ID"'"}'
+}
+
+function storage_deposit () {
+  TOKEN_NAME=$1
+  BENEFICIARY_ID=$2
+  $NEAR call "$TOKEN_NAME" storage_deposit '' --accountId "$BENEFICIARY_ID" --amount 0.00125
+}
+
+function token_transfer_call () {
+  TOKEN_NAME=$1
+  FROM_NAME=$2
+  TO_NAME=$3
+  AMOUNT=$4
+  MSG=$5
+  echo "$FROM_NAME -> [ $TOKEN_NAME $AMOUNT ] -> $TO_NAME"
+  $NEAR call "$TOKEN_NAME" ft_transfer_call --accountId "$FROM_NAME" '{"receiver_id": "'"$TO_NAME"'", "amount": "'"$AMOUNT"'", "msg": "'"$MSG"'"}' --gas=100000000000000 --depositYocto=1
+}
+
+function token_transfer () {
+  TOKEN_NAME=$1
+  FROM_NAME=$2
+  TO_NAME=$3
+  AMOUNT=$4
+  echo "$FROM_NAME -> [ $TOKEN_NAME $AMOUNT ] -> $TO_NAME"
+  $NEAR call "$TOKEN_NAME" ft_transfer --accountId "$FROM_NAME" '{"receiver_id": "'"$TO_NAME"'", "amount": "'"$AMOUNT"'"}' --depositYocto=1
 }
 
 function delete () {
@@ -32,7 +58,7 @@ function delete () {
 }
 
 function main() {
-  $1 "$2" "$3" "$4" "$5"
+  $1 "$2" "$3" "$4" "$5" "$6"
 }
 
-main "$1" "$2" "$3" "$4" "$5"
+main "$1" "$2" "$3" "$4" "$5" "$6"
