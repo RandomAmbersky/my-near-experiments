@@ -14,22 +14,12 @@ function new() {
   $NEAR call "$TOKEN_NAME" new --accountId "$TOKEN_NAME"
 }
 
-function balance () {
+# https://nomicon.io/Standards/Tokens/FungibleToken/Core
+# NEP-141
+function ft_balance () {
   TOKEN_NAME=$1
   BENEFICIARY_ID=$2
   $NEAR view "$TOKEN_NAME" ft_balance_of '{"account_id": "'"$BENEFICIARY_ID"'"}'
-}
-
-function storage_balance () {
-  TOKEN_NAME=$1
-  BENEFICIARY_ID=$2
-  $NEAR view "$TOKEN_NAME" storage_balance_of '{"account_id": "'"$BENEFICIARY_ID"'"}'
-}
-
-function storage_deposit () {
-  TOKEN_NAME=$1
-  BENEFICIARY_ID=$2
-  $NEAR call "$TOKEN_NAME" storage_deposit '' --accountId "$BENEFICIARY_ID" --amount 0.00125
 }
 
 function token_transfer_call () {
@@ -49,6 +39,21 @@ function token_transfer () {
   AMOUNT=$4
   echo "$FROM_NAME -> [ $TOKEN_NAME $AMOUNT ] -> $TO_NAME"
   $NEAR call "$TOKEN_NAME" ft_transfer --accountId "$FROM_NAME" '{"receiver_id": "'"$TO_NAME"'", "amount": "'"$AMOUNT"'"}' --depositYocto=1
+}
+
+# https://nomicon.io/Standards/StorageManagement
+# NEP-145
+
+function storage_balance () {
+  TOKEN_NAME=$1
+  BENEFICIARY_ID=$2
+  $NEAR view "$TOKEN_NAME" storage_balance_of '{"account_id": "'"$BENEFICIARY_ID"'"}'
+}
+
+function storage_deposit () {
+  TOKEN_NAME=$1
+  BENEFICIARY_ID=$2
+  $NEAR call "$TOKEN_NAME" storage_deposit '' --accountId "$BENEFICIARY_ID" --amount 0.00125
 }
 
 function delete () {

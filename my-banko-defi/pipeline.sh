@@ -80,6 +80,19 @@ function add_liquidity() {
   $NEAR call "$REF_FINANCE_ID" add_liquidity --accountId "$BENEFICIARY_ID" '{"pool_id": '"$POOL_ID"', "amounts": ["'"$AMOUNT"'", "'"$WNEAR_AMOUNT"'"]}' --amount=0.01
 }
 
+function get_funds() {
+  REF_FINANCE_ID=$1
+  BENEFICIARY_ID=$2
+  TOKEN_NAME=$3
+  AMOUNT=$4
+  echo ${REF_FINANCE_ID} ${BENEFICIARY_ID} ${TOKEN_NAME} ${AMOUNT}
+  $NEAR call "$REF_FINANCE_ID" withdraw --accountId "$BENEFICIARY_ID" '{"token_id": "'"$TOKEN_NAME"'", "amount": "'"$AMOUNT"'"}' --depositYocto=1
+#  near call $CONTRACT_ID unregister_tokens "{\"token_ids\": [\"TOKEN_NAME, WNEAR_NAME \"]}" --accountId $USER_ID --depositYocto=1
+#  near view $CONTRACT_ID get_deposits "{\"account_id\": \"$USER_ID\"} - must be empty
+#  near call $CONTRACT_ID storage_unregister '' --accountId $USER_ID
+#near call wrap.testnet storage_unregister '{ "force": true }' --accountId randomambersky-test.testnet --depositYocto=1
+}
+
 function main() {
   $1 "$2" "$3" "$4" "$5" "$6"
 }
