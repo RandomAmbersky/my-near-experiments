@@ -56,6 +56,20 @@ function storage_deposit () {
   $NEAR call "$TOKEN_NAME" storage_deposit '' --accountId "$BENEFICIARY_ID" --amount 0.00125
 }
 
+function near_deposit () {
+  WNEAR_NAME=$1
+  BENEFICIARY_ID=$2
+  AMOUNT=$3
+  $NEAR call "$WNEAR_NAME" near_deposit '' --accountId "$BENEFICIARY_ID" --depositYocto "$AMOUNT"
+}
+
+function near_withdraw () {
+  WNEAR_NAME=$1
+  BENEFICIARY_ID=$2
+  AMOUNT=$3
+  $NEAR call "$WNEAR_NAME" near_withdraw --accountId "$BENEFICIARY_ID" '{"amount": "'"$AMOUNT"'"}' --depositYocto 1
+}
+
 function delete () {
   TOKEN_NAME=$1
   BENEFICIARY_ID=$2

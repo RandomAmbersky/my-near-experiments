@@ -10,7 +10,7 @@ use near_sdk::json_types::{U128};
 const FT_METADATA_NAME: &str = "Eternal Lands Gold Token";
 const FT_METADATA_SYMBOL: &str = "elGOLD";
 
-const INITIAL_REF_AMOUNT: u128 = 10000000;
+const INITIAL_REF_AMOUNT: u128 = 10000000000000000000000;
 
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]

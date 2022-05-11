@@ -39,7 +39,7 @@ function test_swap() {
 function storage_deposit() {
   REF_FINANCE_ID=$1
   BENEFICIARY_ID=$2
-  $NEAR call "$REF_FINANCE_ID" --accountId "$BENEFICIARY_ID" storage_deposit '' --depositYocto=1
+  $NEAR call "$REF_FINANCE_ID" --accountId "$BENEFICIARY_ID" storage_deposit '' --amount 0.0125
 }
 
 function register_tokens() {
@@ -63,9 +63,9 @@ function get_deposits() {
 }
 
 function token_deposit_funds() {
-  REF_FINANCE_ID=$1
+  TOKEN_NAME=$1
   BENEFICIARY_ID=$2
-  TOKEN_NAME=$3
+  REF_FINANCE_ID=$3
   AMOUNT=$4
   $NEAR call "$TOKEN_NAME" storage_deposit  --accountId "$BENEFICIARY_ID" '{"account_id": "'"$REF_FINANCE_ID"'"}' --amount 0.0125
   $NEAR call "$TOKEN_NAME" ft_transfer_call --accountId "$BENEFICIARY_ID" '{"receiver_id": "'"$REF_FINANCE_ID"'", "amount": "'"$AMOUNT"'", "msg": ""}' --gas=100000000000000 --depositYocto=1
