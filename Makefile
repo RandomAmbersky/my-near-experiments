@@ -11,7 +11,7 @@ TOKEN_NAME=$(shell ./utils.sh get_token_name)
 WNEAR_AMOUNT=10000000000000000000000000
 AMOUNT=10000000000000000000000
 
-POOL_ID=460
+POOL_ID=474
 
 ft-deploy:
 	$(FT_CMD) build
@@ -20,6 +20,9 @@ ft-deploy:
 
 ft-new:
 	$(FT_CMD) new ${TOKEN_NAME}
+
+ft-mint:
+	$(FT_CMD) mint ${TOKEN_NAME}
 
 ft-near-transfer:
 #	convert NEAR to wNEAR by beneficiary
@@ -34,20 +37,21 @@ ft-token-transfer:
 	$(FT_CMD) storage_deposit ${TOKEN_NAME} ${BENEFICIARY_ID}
 	$(FT_CMD) token_transfer ${TOKEN_NAME} ${TOKEN_NAME} ${BENEFICIARY_ID} ${AMOUNT}
 
-	#$(FT_CMD) token_transfer ${WNEAR_NAME} ${WNEAR_NAME} ${BENEFICIARY_ID} ${AMOUNT}
-	#$(FT_CMD) token_transfer_call ${WNEAR_NAME} ${BENEFICIARY_ID} ${REF_FINANCE_ID} ${WNEAR_AMOUNT}
-	#$(FT_CMD) token_transfer_call ${BENEFICIARY_ID} ${TOKEN_NAME} ${REF_FINANCE_ID} ${AMOUNT}
+	$(FT_CMD) token_transfer_call ${WNEAR_NAME} ${BENEFICIARY_ID} ${REF_FINANCE_ID} ${WNEAR_AMOUNT}
+	$(FT_CMD) token_transfer_call ${BENEFICIARY_ID} ${TOKEN_NAME} ${REF_FINANCE_ID} ${AMOUNT}
+
+pool-new:
+	$(POOL_CMD) add_pool ${REF_FINANCE_ID} ${BENEFICIARY_ID} ${TOKEN_NAME} ${WNEAR_NAME}
 
 pool-deploy:
-	#$(POOL_CMD) add_pool ${REF_FINANCE_ID} ${BENEFICIARY_ID} ${TOKEN_NAME} ${WNEAR_NAME}
-	#$(POOL_CMD) storage_deposit ${REF_FINANCE_ID} ${BENEFICIARY_ID} # add some deposit for exchange
-	#$(POOL_CMD) register_tokens ${REF_FINANCE_ID} ${BENEFICIARY_ID} ${TOKEN_NAME} ${WNEAR_NAME}
-	#$(POOL_CMD) token_deposit_funds ${TOKEN_NAME} ${BENEFICIARY_ID} ${REF_FINANCE_ID} ${AMOUNT}
+	$(POOL_CMD) storage_deposit ${REF_FINANCE_ID} ${BENEFICIARY_ID} # add some deposit for exchange
+	$(POOL_CMD) register_tokens ${REF_FINANCE_ID} ${BENEFICIARY_ID} ${TOKEN_NAME} ${WNEAR_NAME}
+
+	$(POOL_CMD) token_deposit_funds ${TOKEN_NAME} ${BENEFICIARY_ID} ${REF_FINANCE_ID} ${AMOUNT}
 	$(POOL_CMD) token_deposit_funds ${WNEAR_NAME} ${BENEFICIARY_ID} ${REF_FINANCE_ID} ${WNEAR_AMOUNT}
 
-	#$(POOL_CMD) add_liquidity ${REF_FINANCE_ID} ${BENEFICIARY_ID} ${POOL_ID} ${AMOUNT} ${WNEAR_AMOUNT}
+	$(POOL_CMD) add_liquidity ${REF_FINANCE_ID} ${BENEFICIARY_ID} ${POOL_ID} ${AMOUNT} ${WNEAR_AMOUNT}
 
-#11480000000000000000000
 
 #pool-clean:
 	#$(POOL_CMD) get_funds ${REF_FINANCE_ID} ${BENEFICIARY_ID} ${TOKEN_NAME} ${AMOUNT}

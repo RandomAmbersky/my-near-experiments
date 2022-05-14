@@ -14,6 +14,11 @@ function new() {
   $NEAR call "$TOKEN_NAME" new --accountId "$TOKEN_NAME"
 }
 
+function mint() {
+  TOKEN_NAME=$1
+  $NEAR call "$TOKEN_NAME" mint --accountId "$TOKEN_NAME"
+}
+
 # https://nomicon.io/Standards/Tokens/FungibleToken/Core
 # NEP-141
 function ft_balance () {
