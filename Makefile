@@ -83,6 +83,9 @@ balance:
 	#$(POOL_CMD) get_pool_volumes ${REF_FINANCE_ID} ${POOL_ID}
 	#$(POOL_CMD) get_pool_shares ${REF_FINANCE_ID} ${POOL_ID} ${BENEFICIARY_ID}
 
+pool-delete:
+	$(POOL_CMD) get_funds
+
 ft-delete:
 	$(FT_CMD) delete ${TOKEN_NAME} ${BENEFICIARY_ID}
 	rm -rf ./my-ft/neardev
