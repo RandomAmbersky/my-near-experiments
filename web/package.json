@@ -1,0 +1,12 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "parcel-build": "yarn parcel build res/index.html",
+    "dev": "yarn parcel res/index.html"
+  },
+  "devDependencies": {
+    "parcel": "^2.5.0"
+  }
+}
