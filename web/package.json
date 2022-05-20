@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "parcel-build": "yarn parcel build res/index.html",
+    "build": "yarn parcel build res/index.html",
     "dev": "yarn parcel res/index.html"
   },
   "devDependencies": {

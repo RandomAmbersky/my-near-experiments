@@ -1,227 +1,41 @@
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=720, initial-scale=0.54">
-    <title>Near Postcards</title>
-    <style>
-        * { font-family: Arial, Helvetica, sans-serif; }
-        a, a:link, a:visited, a:focus, a:hover, a:active {
-			outline: none;
-			text-decoration: none;
-			padding: 2px 1px 0;
-			color: #fff;
-		}
-        body { padding: 0; margin: 0; }
-		.show_card { float:left; width:327px; height:500px; margin-left:20px; margin-bottom:20px; }
-		input:invalid:required {
-			background-image: linear-gradient(to right, pink, #E0F0F0);}
-		input:invalid {background-image: linear-gradient(to right, pink, #E0F0F0);}
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=720, initial-scale=0.54">
+  <title>elGOLD</title>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
-<body>
-    <div style='padding:10px; background-color:#89a9a9; color: white;'>
-        <img width="25" height="25" style="vertical-align:bottom; padding-right:5px;" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNjAgNjAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDYwIDYwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8Zz4NCgk8Zz4NCgkJPHBhdGggZD0iTTU2LjgxOCwxNS4xMTJMNTMuNTQzLDIuODg4TDcuOTE5LDE1LjExMkgwdjQyaDYwdi00MkM2MCwxNS4xMTIsNTYuODE4LDE1LjExMiw1Ni44MTgsMTUuMTEyeiBNNTIuMTI5LDUuMzM3bDIuNjE5LDkuNzc1DQoJCQlIMTUuNjQ2TDUyLjEyOSw1LjMzN3ogTTU4LDU1LjExMkgydi0zaDJjMC41NTMsMCwxLTAuNDQ3LDEtMXMtMC40NDctMS0xLTFIMnYtM2gyYzAuNTUzLDAsMS0wLjQ0NywxLTFzLTAuNDQ3LTEtMS0xSDJ2LTNoMg0KCQkJYzAuNTUzLDAsMS0wLjQ0NywxLTFzLTAuNDQ3LTEtMS0xSDJ2LTNoMmMwLjU1MywwLDEtMC40NDcsMS0xcy0wLjQ0Ny0xLTEtMUgydi0zaDJjMC41NTMsMCwxLTAuNDQ3LDEtMXMtMC40NDctMS0xLTFIMnYtM2gyDQoJCQljMC41NTMsMCwxLTAuNDQ3LDEtMXMtMC40NDctMS0xLTFIMnYtM2gyYzAuNTUzLDAsMS0wLjQ0NywxLTFzLTAuNDQ3LTEtMS0xSDJ2LTNoNTUuMzU0SDU4VjU1LjExMnoiLz4NCgkJPHJlY3QgeD0iMjkiIHk9IjIyLjExMiIgd2lkdGg9IjIiIGhlaWdodD0iMjgiLz4NCgkJPHJlY3QgeD0iNDIiIHk9IjQ0LjExMiIgd2lkdGg9IjEyIiBoZWlnaHQ9IjIiLz4NCgkJPHJlY3QgeD0iNDAiIHk9IjQ4LjExMiIgd2lkdGg9IjE0IiBoZWlnaHQ9IjIiLz4NCgkJPHBhdGggZD0iTTQ0LDMyLjExMmgxMHYtMTBINDRWMzIuMTEyeiBNNDYsMjQuMTEyaDZ2NmgtNlYyNC4xMTJ6Ii8+DQoJPC9nPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPC9zdmc+DQo=">
-		<a href="/"><b>Near Pay-o-Near</b></a>
-	</div>
-		<div id="console">wait...</div>
-<br>
-<script src="https://cdn.jsdelivr.net/npm/near-api-js@0.44.0/dist/near-api-js.js"></script>
-<script>
-	const IsMainnet = false
+ <body>
+  <div style='padding:10px; background-color:#89a9a9; color: white;'>
+    <a href="/"><b>elGOLD</b></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/near-api-js@0.44.0/dist/near-api-js.js"></script>
+  <script>
+    const IsMainnet = false
 
-	const TestNearConfig = {
-		networkId: "testnet",
-		nodeUrl: "https://rpc.testnet.near.org",
-		walletUrl: "https://wallet.testnet.near.org",
-		helperUrl: 'https://helper.testnet.near.org'
-	};
-	const MainNearConfig = {
-		networkId: "mainnet",
-		nodeUrl: "https://rpc.mainnet.near.org",
-		walletUrl: "https://wallet.near.org",
-		helperUrl: 'https://helper.mainnet.near.org'
-	};
+    const TestNearConfig = {
+      networkId: "testnet",
+      nodeUrl: "https://rpc.testnet.near.org",
+      walletUrl: "https://wallet.testnet.near.org",
+      helperUrl: 'https://helper.testnet.near.org'
+    };
+    const MainNearConfig = {
+      networkId: "mainnet",
+      nodeUrl: "https://rpc.mainnet.near.org",
+      walletUrl: "https://wallet.near.org",
+      helperUrl: 'https://helper.mainnet.near.org'
+    };
 
-	const config = {
-	  appName: IsMainnet ? "Near Postcards (mainnet)" : "Near Postcards (testnet)",
-	  dbSaveMethod: 'POST',
-	  dbSaveUrl: 'http://random.amberskynet.org/pay-o-near/index.php',
-    token: '123',
-		nearConfig: IsMainnet ? MainNearConfig : TestNearConfig
-  }
-
-  // context. must be empty on start
-	const ctx = {
-		fromName: '',
-    toName: '',
-    amountValue: 0
-  }
-
-  const cashList = {
-		"randomambersky-test.testnet": {
-			"testerman2.testnet": "1",
-			"random-test.testnet": "2"
-    },
-	  "random-test.testnet": {
-		  "randomambersky-test.testnet": "1",
-		  "testerman2.testnet": "2"
-	  },
-  }
-
-  async function start () {
-	  for (const [key, value] of Object.entries(cashList)) {
-      ctx.fromName = key
-			addConsole(`----[ From ${key} ]-----`)
-		  await connectAccount(key)
-		  if (!ctx.wallet.isSignedIn()) {
-			  return ctx.wallet.requestSignIn({contractId: key})
-			}
-      await doPaymentList(key, value)
-		  await ctx.wallet.signOut();
-	  }
-  }
-
-	async function doPaymentList(from, toArray) {
-		for (const [key, value] of Object.entries(toArray)) {
-			ctx.toName = key
-			ctx.amountValue = value
-			addConsole(`to ${key} : ${value}`)
-			await doPay(key, value)
-		}
-  }
-
-  start()
-    .then( _ => addConsole("All Successful"))
-    .catch( err => {
-			console.log(err)
-	    addConsole(err)
-      const resp = JSON.stringify(err)
-	    addConsole(resp)
-    })
-
-	// working with arguments
-	function addConsole () {
-		const consoleArea = document.getElementById('console')
-		let result = ''
-
-		for (let i = 0; i < arguments.length; i++) {
-			result += ' ' + arguments[i];
-		}
-
-		consoleArea.innerHTML += '<br>'
-		consoleArea.innerHTML += result
-	}
-
-	async function saveToDb (status, from, to, amount) {
-		addConsole('try save to db')
-    const time = Date.now();
-		// Дата | куда | с какого кошелька |сумма | статус
-    addConsole(time, from, to, amount, status)
-
-    return
-    const dataJSON = {
-			time,
-      from_wallet: from,
-      to_wallet: to,
-      amount: amount,
-      status
+    const config = {
+      appName: IsMainnet ? "elGOLD bank" : "elGOLD bank",
+      nearConfig: IsMainnet ? MainNearConfig : TestNearConfig
     }
 
-    return new Promise( function (resolve, reject) {
-	    const xhr = new XMLHttpRequest()
-	    xhr.open(config.dbSaveMethod, config.dbSaveUrl, true)
-	    xhr.setRequestHeader("Content-Type", "application/json")
-	    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
-      const bearer = 'Bearer ' + config.token
-      addConsole('Bearer:', bearer)
-      xhr.setRequestHeader('Authorization', bearer)
-	    xhr.onreadystatechange = function () {
-		    addConsole('readyState=', xhr.readyState)
-			}
-	    xhr.onload = function () {
-		    if (this.status >= 200 && this.status < 300) {
-			    addConsole('save to db [ok]')
-			    addConsole(xhr.status)
-			    addConsole(xhr.responseText)
-			    resolve(xhr.response)
-		    } else {
-			    addConsole('save to db [error]')
-			    reject({
-				    status: xhr.status,
-				    statusText: xhr.statusText
-			    })
-		    }
-	    }
-	    xhr.onerror = function () {
-		    addConsole('save to db [on error]')
-		    reject({
-			    status: xhr.status,
-			    statusText: xhr.statusText
-		    })
-	    }
-	    xhr.send(JSON.stringify(dataJSON));
-    })
-	}
+    async function start () {
 
-  async function confirmPayment (from, to, amount) {
-	  return new Promise( function (resolve, reject) {
-		  // yoktoonear = nearApi.utils.format.parseNearAmount(amountParam)
-			const message = `${from} -> [${amount}] -> ${to}`
-		  let confirmAction = confirm(message)
-		    if (confirmAction) {
-					resolve("Action Ok")
-		    }
-				else {
-					reject("Action cancel")
-        }
-	  })
-  }
-
-	async function connectAccount(accountName){
-		addConsole('try connect...')
-		const configLocal = Object.assign(config.nearConfig,
-      {
-				deps: {
-					keyStore: new nearApi.keyStores.BrowserLocalStorageKeyStore()
-				}
-			})
-		const near = await nearApi.connect(configLocal)
-		const account = await near.account(accountName)
-		const wallet = new nearApi.WalletConnection(near, config.appName);
-		ctx.near = near
-    ctx.account = account
-    ctx.wallet = wallet
-    addConsole('connect [ok]')
-	}
-
-	//  function signAccount(account) {
-  //   addConsole('checkSign...')
-  //   if (ctx.wallet.isSignedIn()) {
-	//     addConsole('checkSign [ok]')
-  //     return
-  //   }
-  //   ctx.wallet.requestSignIn({contractId: account})
-  // }
-
-	async function doPay(receiverId, amountNear) {
-		const amount = nearApi.utils.format.parseNearAmount(amountNear)
-		addConsole(`try do pay ${receiverId}  ${amount} ...`)
-    addConsole('PLEASE WAIT...')
-    try {
-      await ctx.account.sendMoney(receiverId, amount)
-      addConsole('sendMoney [ok]')
-      return saveToDb(1, ctx.fromName, receiverId, amountNear)
-    } catch (err) {
-      addConsole(err)
-      addConsole('sendMoney [error]')
-      return saveToDb(0, ctx.fromName, receiverId, amountNear)
     }
-	}
 
-	// async function logout() {
-	// 	await walletAccount.signOut();
-	// 	window.location.replace(window.location.origin + window.location.pathname);
-	// }
-</script>
-</body>
+    start()
+    </script>
+ </body>
 </html>
