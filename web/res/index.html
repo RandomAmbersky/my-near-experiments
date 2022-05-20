@@ -10,32 +10,6 @@
     <a href="/"><b>elGOLD</b></a>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/near-api-js@0.44.0/dist/near-api-js.js"></script>
-  <script>
-    const IsMainnet = false
-
-    const TestNearConfig = {
-      networkId: "testnet",
-      nodeUrl: "https://rpc.testnet.near.org",
-      walletUrl: "https://wallet.testnet.near.org",
-      helperUrl: 'https://helper.testnet.near.org'
-    };
-    const MainNearConfig = {
-      networkId: "mainnet",
-      nodeUrl: "https://rpc.mainnet.near.org",
-      walletUrl: "https://wallet.near.org",
-      helperUrl: 'https://helper.mainnet.near.org'
-    };
-
-    const config = {
-      appName: IsMainnet ? "elGOLD bank" : "elGOLD bank",
-      nearConfig: IsMainnet ? MainNearConfig : TestNearConfig
-    }
-
-    async function start () {
-
-    }
-
-    start()
-    </script>
+  <script type="module" src="./app.js"></script>
  </body>
 </html>
