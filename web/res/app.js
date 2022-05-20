@@ -1,3 +1,5 @@
+const poolAPI = require('./pools')
+
 const IsMainnet = false
 
 const TestNearConfig = {
@@ -19,12 +21,12 @@ const config = {
 }
 
 async function start () {
-
+	await poolAPI.getDataPool();
 }
 
 start()
 .then( resp => {
-	console.log('Ok')
+	console.log(resp)
 })
 .catch( err => {
 	console.log(err)
