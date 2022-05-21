@@ -1,3 +1,5 @@
+const nearApiJS = require('near-api-js')
+
 import poolAPI from './pool-api'
 
 const IsMainnet = false
@@ -22,25 +24,22 @@ const config = {
 	nearConfig: IsMainnet ? MainNearConfig : TestNearConfig
 }
 
-async function init (nearApi) {
-	const near = await nearApi.connect(
+async function init () {
+	const near = await nearApiJS.connect(
 		Object.assign(config.nearConfig, {
 			deps: {
-				keyStore: new nearApi.keyStores.BrowserLocalStorageKeyStore()
+				keyStore: new nearApiJS.keyStores.BrowserLocalStorageKeyStore()
 			}
-		}));
-	const walletAccount = new nearApi.WalletConnection(near);
+		}))
+	const walletAccount = new nearApiJS.WalletConnection(near)
 	const accountId = walletAccount.getAccountId();
-	// const contract = await new nearApi.Contract(walletAccount.account(), nearConfig.contractName, {viewMethods:['nft_tokens_for_owner'], changeMethods:['nft_mint'], sender: window.walletAccount.getAccountId()});
-
 	const poolContract = await poolAPI.initContract({
-		nearApi,
+		nearApiJS,
 		contractName: config.nearConfig.contractPoolName,
 		walletAccount
 	})
 
 	return {
-		nearApi,
 		near,
 		walletAccount,
 		accountId,

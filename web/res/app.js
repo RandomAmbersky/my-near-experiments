@@ -3,21 +3,23 @@ const poolAPI = require('./pool-api')
 
 const poolId = 474
 
-window.ctx = {}
+let ctx = {}
 
-window.start = (nearApi) => {
+const start = () => {
 	console.log('start...')
-	init(nearApi)
+	init()
 		.then(r => console.log(r))
 		.catch(e => console.log(e))
 }
 
-async function init (nearApi) {
+start()
+
+async function init () {
 	console.log('init')
-	window.ctx = await nearAPI.init(nearApi)
+	ctx = await nearAPI.init()
 
 	const dataPool = await poolAPI.getInfo({
-		poolContract: window.ctx.poolContract,
+		poolContract: ctx.poolContract,
 		poolId
 	})
 

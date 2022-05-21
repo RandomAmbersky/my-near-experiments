@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "yarn parcel build res/index.html",
+    "build": "yarn parcel build res/index.html --no-source-maps",
     "dev": "yarn parcel res/index.html"
   },
   "devDependencies": {
     "parcel": "^2.5.0"
+  },
+  "dependencies": {
+    "big.js": "^6.1.1",
+    "near-api-js": "^0.44.2"
   }
 }

@@ -1,15 +1,18 @@
+const nearApiJS = require('near-api-js')
+
+const Big = require('big.js')
+
 const OneNear = Big(10).pow(24);
 const OneElGOLD = Big(10).pow(18);
 
 
 /**
- * @param {Object} nearApi
  * @param {String} contractName
  * @param {Object} walletAccount
  * @returns {Promise<Object>}
  */
-const initContract = async ({nearApi, contractName, walletAccount}) => {
-	return new nearApi.Contract(
+const initContract = async ({contractName, walletAccount}) => {
+	return new nearApiJS.Contract(
 		walletAccount.account(),
 		contractName,
 		{
