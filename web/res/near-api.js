@@ -1,4 +1,4 @@
-import poolAPI from './pools'
+import poolAPI from './pool-api'
 
 const IsMainnet = false
 
@@ -33,7 +33,7 @@ async function init (nearApi) {
 	const accountId = walletAccount.getAccountId();
 	// const contract = await new nearApi.Contract(walletAccount.account(), nearConfig.contractName, {viewMethods:['nft_tokens_for_owner'], changeMethods:['nft_mint'], sender: window.walletAccount.getAccountId()});
 
-	const poolContract = poolAPI.initContract({
+	const poolContract = await poolAPI.initContract({
 		nearApi,
 		contractName: config.nearConfig.contractPoolName,
 		walletAccount

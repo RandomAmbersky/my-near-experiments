@@ -9,19 +9,19 @@ const initContract = async ({nearApi, contractName, walletAccount,}) => {
 		walletAccount.account(),
 		contractName,
 		{
-			viewMethods: [
-				'nft_tokens_for_owner'
-			],
-			changeMethods: [
-				// 'nft_mint'
-			],
+			viewMethods: ["get_pool", "get_deposit"],
+			changeMethods: [],
 			sender: walletAccount.getAccountId()
 		}
 	)
 }
 
-const getDataPool = async () => {
-	console.log('getDataPool')
+const getDataPool = async ({poolContract, poolId}) => {
+	const rawPool = await poolContract.get_pool({
+		pool_id: poolId,
+	})
+	console.log('getDataPool: ')
+	console.log(rawPool)
 }
 
 module.exports = {

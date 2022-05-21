@@ -1,5 +1,7 @@
 const nearAPI = require('./near-api')
-// const poolAPI = require('./pools')
+const poolAPI = require('./pool-api')
+
+const poolId = 474
 
 window.ctx = {}
 
@@ -12,8 +14,13 @@ window.start = (nearApi) => {
 
 async function init (nearApi) {
 	console.log('init')
-	window.ctx = nearAPI.init(nearApi)
-	// await poolAPI.getDataPool();
+	window.ctx = await nearAPI.init(nearApi)
+
+	const dataPool = await poolAPI.getDataPool({
+		poolContract: window.ctx.poolContract,
+		poolId
+	}, )
+
 	return 'init ok'
 }
 
