@@ -1,33 +1,23 @@
-const poolAPI = require('./pools')
+const nearAPI = require('./near-api')
+// const poolAPI = require('./pools')
 
-const IsMainnet = false
+window.ctx = {}
 
-const TestNearConfig = {
-	networkId: "testnet",
-	nodeUrl: "https://rpc.testnet.near.org",
-	walletUrl: "https://wallet.testnet.near.org",
-	helperUrl: 'https://helper.testnet.near.org'
-};
-const MainNearConfig = {
-	networkId: "mainnet",
-	nodeUrl: "https://rpc.mainnet.near.org",
-	walletUrl: "https://wallet.near.org",
-	helperUrl: 'https://helper.mainnet.near.org'
-};
-
-const config = {
-	appName: IsMainnet ? "elGOLD bank" : "elGOLD bank",
-	nearConfig: IsMainnet ? MainNearConfig : TestNearConfig
+window.start = (nearApi) => {
+	console.log('start...')
+	init(nearApi)
+		.then(r => console.log(r))
+		.catch(e => console.log(e))
 }
 
-async function start () {
-	await poolAPI.getDataPool();
+async function init (nearApi) {
+	console.log('init')
+	window.ctx = nearAPI.init(nearApi)
+	// await poolAPI.getDataPool();
+	return 'init ok'
 }
 
-start()
-.then( resp => {
-	console.log(resp)
-})
-.catch( err => {
-	console.log(err)
-})
+// window.near = await nearApi.connect(Object.assign(nearConfig, { deps: { keyStore: new nearApi.keyStores.BrowserLocalStorageKeyStore() }}));
+// window.walletAccount = new nearApi.WalletConnection(window.near);
+// window.accountId = walletAccount.getAccountId();
+// window.contract = await new nearApi.Contract(walletAccount.account(), nearConfig.contractName, {viewMethods:['nft_tokens_for_owner'], changeMethods:['nft_mint'], sender: window.walletAccount.getAccountId()});
