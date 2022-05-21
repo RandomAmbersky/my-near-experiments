@@ -16,15 +16,15 @@ async function init (nearApi) {
 	console.log('init')
 	window.ctx = await nearAPI.init(nearApi)
 
-	const dataPool = await poolAPI.getDataPool({
+	const dataPool = await poolAPI.getInfo({
 		poolContract: window.ctx.poolContract,
 		poolId
-	}, )
+	})
 
+	const { elGOLD, wNear, fee } = dataPool
+
+	console.log('elGOLD: ', elGOLD.toPrecision())
+	console.log('wNear: ', wNear.toPrecision())
+	console.log('fee:', fee)
 	return 'init ok'
 }
-
-// window.near = await nearApi.connect(Object.assign(nearConfig, { deps: { keyStore: new nearApi.keyStores.BrowserLocalStorageKeyStore() }}));
-// window.walletAccount = new nearApi.WalletConnection(window.near);
-// window.accountId = walletAccount.getAccountId();
-// window.contract = await new nearApi.Contract(walletAccount.account(), nearConfig.contractName, {viewMethods:['nft_tokens_for_owner'], changeMethods:['nft_mint'], sender: window.walletAccount.getAccountId()});
