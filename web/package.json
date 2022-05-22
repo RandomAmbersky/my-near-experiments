@@ -7,10 +7,14 @@
     "dev": "yarn parcel res/index.html"
   },
   "devDependencies": {
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.4",
     "parcel": "^2.5.0"
   },
   "dependencies": {
     "big.js": "^6.1.1",
-    "near-api-js": "^0.44.2"
+    "near-api-js": "^0.44.2",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
   }
 }
