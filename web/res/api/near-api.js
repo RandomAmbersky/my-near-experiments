@@ -21,6 +21,9 @@ const MainNearConfig = {
 
 const nearConfig = IsMainnet ? MainNearConfig : TestNearConfig
 
+/**
+ * @returns {Promise<{accountId: any, poolContract: Object, walletAccount: Object, near: Object}>}
+ */
 async function init () {
 	const near = await nearApiJS.connect(
 		Object.assign(nearConfig, {

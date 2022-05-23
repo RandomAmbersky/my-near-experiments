@@ -29,10 +29,11 @@ const initContract = async ({contractName, walletAccount}) => {
  * @returns {Promise<{fee: *, elGOLD: *, wNear: *}>}
  */
 const getInfo = async ({poolContract, poolId}) => {
+	console.log('poolId:', poolId)
 	const rawPool = await poolContract.get_pool({
-		pool_id: poolId,
+		pool_id: poolId
 	})
-	console.log(rawPool)
+	console.log('rawPool:', rawPool)
 	const elGOLD = Big(rawPool.amounts[0]).div(OneElGOLD)
 	const wNear = Big(rawPool.amounts[1]).div(OneNear)
 	const fee = rawPool.total_fee;

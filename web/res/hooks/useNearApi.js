@@ -1,8 +1,19 @@
 import {useEffect, useState} from 'react'
 import nearAPI from '../api/near-api'
 
-const useNearInit = () => {
-	const [ctx, setCtx] = useState({})
+const useAsyncFunction = (func, props, initState = {}) => {
+	const [result, setResult] = useState(initState)
+	useEffect( async ()=> {
+		setResult( func(props) )
+	})
+	return result
+}
+
+/**
+ * @returns {accountId: any, poolContract: Object, walletAccount: Object, near: Object}
+ */
+const useNearInit = (initialState) => {
+	const [ctx, setCtx] = useState(initialState)
 	useEffect( ()=> {
 		nearAPI.init()
 			.catch(err => {
@@ -16,5 +27,6 @@ const useNearInit = () => {
 }
 
 module.exports = {
-	useNearInit
+	useNearInit,
+	useAsyncFunction
 }
