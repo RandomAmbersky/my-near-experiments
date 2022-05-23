@@ -1,4 +1,4 @@
-import React, {useEffect} from "react"
+import React from "react"
 import {useNearInit} from "./hooks/useNearApi";
 
 import PoolInfo from './components/Poolnfo'
@@ -15,13 +15,13 @@ const initialCtxState = {
 export function App () {
 	console.log("App...")
 	const ctx = useNearInit(initialCtxState)
-	// const pool = usePoolInfo(ctx.poolContract, poolId)
-	// console.log(pool)
 
 	return (
 		<div>
 			<h1>React is here</h1>
-			<PoolInfo poolContract={ctx.poolContract} poolId={poolId} />
+      {
+        ctx.poolContract ? <PoolInfo poolContract={ctx.poolContract} poolId={poolId}/>  : <h1>is loading...</h1>
+      }
 		</div>
 	)
 }
