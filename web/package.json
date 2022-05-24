@@ -8,13 +8,14 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.9",
-    "@types/react-dom": "^18.0.4",
+    "@types/react-dom": "^18.0.5",
     "parcel": "^2.5.0"
   },
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
-    "@mui/material": "^5.8.0",
+    "@mui/material": "^5.8.1",
+    "@mui/system": "^5.8.1",
     "big.js": "^6.1.1",
     "near-api-js": "^0.44.2",
     "react": "^18.1.0",
