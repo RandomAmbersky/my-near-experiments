@@ -1,10 +1,7 @@
 import React from "react"
 import {useNearInit} from "./hooks/useNearApi"
 import PoolInfo from './components/Poolnfo'
-
-import { Box, ThemeProvider } from '@mui/system'
-import {createTheme} from '@mui/material/styles'
-import {CssBaseline} from '@mui/material'
+import Header from "./components/Header";
 
 const poolId = 474
 
@@ -15,37 +12,20 @@ const initialCtxState = {
 	near: null
 }
 
-const theme = createTheme({
-	palette: {
-		background: {
-			paper: '#fff',
-		},
-		text: {
-			primary: '#173A5E',
-			secondary: '#46505A',
-		},
-		action: {
-			active: '#001E3C',
-		},
-		success: {
-			dark: '#009688',
-		},
-	},
-});
-
 export function App () {
 	console.log("App...")
 	const ctx = useNearInit(initialCtxState)
 
 	return (
-		<ThemeProvider theme={theme}>
-			<Box>
-				<CssBaseline />
+			<div>
+				<Header />
 				<h1>React is here</h1>
 				{
 					ctx.poolContract ? <PoolInfo poolContract={ctx.poolContract} poolId={poolId}/>  : <h1>is loading...</h1>
 				}
-			</Box>
-		</ThemeProvider>
+				<button className="mdc-button mdc-button--raised">
+					<span className="mdc-button__ripple">Learn More</span>
+				</button>
+			</div>
 	)
 }
