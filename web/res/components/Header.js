@@ -1,3 +1,7 @@
+import React from "react"
+
+import Login from './Login'
+
 const Header = () => {
 	return (
 		<header className="mdc-top-app-bar">
@@ -9,14 +13,7 @@ const Header = () => {
 					<span className="mdc-top-app-bar__title">Page title</span>
 				</section>
 				<section className="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-					<button className="material-icons mdc-top-app-bar__action-item mdc-icon-button"
-					        aria-label="Favorite">favorite
-					</button>
-					<button className="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Search">search
-					</button>
-					<button className="material-icons mdc-top-app-bar__action-item mdc-icon-button"
-					        aria-label="Options">more_vert
-					</button>
+					<Login />
 				</section>
 			</div>
 		</header>
