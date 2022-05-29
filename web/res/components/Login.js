@@ -2,11 +2,13 @@ import React from "react"
 
 /**
  * @param {Object} walletAccount
+ * @param {String} accountId
  * @returns {JSX.Element}
  * @constructor
  */
 export default function Login ({
   walletAccount,
+  accountId
 }) {
 
   const doLogin = async () => {
@@ -18,8 +20,7 @@ export default function Login ({
     window.location.replace(window.location.origin + window.location.pathname);
   }
 
-  if (walletAccount.isSignedIn()) {
-    const accountId = walletAccount.getAccountId();
+  if (accountId) {
     return (
       <div>
         <span>Signed at {accountId}</span>&nbsp;

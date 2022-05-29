@@ -13,6 +13,7 @@ const useAsyncFunction = (func, props, initState = {}) => {
  * @returns {accountId: any, poolContract: Object, walletAccount: Object, near: Object}
  */
 const useNearInit = (initialState) => {
+	console.log('useNearInit..')
 	const [ctx, setCtx] = useState(initialState)
 	useEffect( ()=> {
 		nearAPI.init()

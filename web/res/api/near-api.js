@@ -1,6 +1,7 @@
 const nearApiJS = require('near-api-js')
 
 import poolAPI from './pool-api'
+import ftAPI from './ft-api'
 
 const IsMainnet = false
 
@@ -9,20 +10,31 @@ const TestNearConfig = {
 	nodeUrl: "https://rpc.testnet.near.org",
 	walletUrl: "https://wallet.testnet.near.org",
 	helperUrl: 'https://helper.testnet.near.org',
-	contractPoolName: 'ref-finance-101.testnet'
+	contractPoolName: 'ref-finance-101.testnet',
+	contractGoldName: 'dev-1652538142137-68539457665982',
+	contractWNearName: 'wrap.testnet'
 }
+
 const MainNearConfig = {
 	networkId: "mainnet",
 	nodeUrl: "https://rpc.mainnet.near.org",
 	walletUrl: "https://wallet.near.org",
 	helperUrl: 'https://helper.mainnet.near.org',
-	contractPoolName: 'ref-finance-101.testnet'
+	contractPoolName: 'ref-finance-101.testnet',
+	contractGoldName: 'dev-1652538142137-68539457665982',
+	contractWNearName: 'wrap.testnet'
 }
 
 const nearConfig = IsMainnet ? MainNearConfig : TestNearConfig
 
 /**
- * @returns {Promise<{accountId: any, poolContract: Object, walletAccount: Object, near: Object}>}
+ * @returns {Promise<
+ * {accountId: any,
+ * poolContract: Object,
+ * walletAccount: Object,
+ * goldContract: Object,
+ * near: Object}
+ * >}
  */
 async function init () {
 	const near = await nearApiJS.connect(
@@ -40,12 +52,26 @@ async function init () {
 		walletAccount
 	})
 
+	const goldContract = await ftAPI.initContract({
+		nearApiJS,
+		contractName: nearConfig.contractGoldName,
+		walletAccount
+	})
+
+	const wNearContract = await ftAPI.initContract({
+		nearApiJS,
+		contractName: nearConfig.contractWNearName,
+		walletAccount
+	})
+
 	return {
+		poolContract,
+		goldContract,
+		wNearContract,
 		near,
+		isLoading: false,
 		walletAccount,
 		accountId,
-		poolContract,
-		isLoading: false
 	}
 }
 

@@ -2,12 +2,6 @@ import {useEffect, useState} from 'react'
 import poolAPI from '../api/pool-api'
 
 const usePoolInfo = (poolContract, poolId) => {
-	if (!poolContract) {
-		return null
-	}
-	if (!poolId) {
-		return null
-	}
 	const [rawPoolInfo, setRawPoolInfo] = useState({})
 	useEffect( ()=> {
 		poolAPI.getInfo({

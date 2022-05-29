@@ -1,16 +1,20 @@
 import React from "react"
 import {useNearInit} from "./hooks/useNearApi"
+
 import PoolInfo from './components/Poolnfo'
 import Login from './components/Login'
+import UserInfo from "./components/UserInfo";
 
 const poolId = 474
 
 const initialCtxState = {
-	accountId: null,
 	poolContract: null,
-	walletAccount: null,
+	goldContract: null,
+	wNearContract: null,
 	near: null,
-	isLoading: true
+	isLoading: true,
+	accountId: null,
+	walletAccount: null
 }
 
 export function App () {
@@ -24,7 +28,13 @@ export function App () {
 	return (
 			<div>
 				<h1>React is here</h1>
-				<Login walletAccount={ctx.walletAccount}/>
+				<Login walletAccount={ctx.walletAccount} accountId={ctx.accountId}/>
+				{
+					ctx.accountId ? <UserInfo
+						wNearContract={ctx.wNearContract}
+						goldContract={ctx.goldContract}
+						accountId={ctx.accountId} /> : ''
+				}
 				<hr />
 				<PoolInfo poolContract={ctx.poolContract} poolId={poolId}/>
 				<hr />
