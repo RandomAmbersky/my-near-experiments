@@ -1,8 +1,7 @@
 import React from "react"
 import {useNearInit} from "./hooks/useNearApi"
 import PoolInfo from './components/Poolnfo'
-import Header from "./components/Header";
-import Login from "./components/Login";
+import Login from './components/Login'
 
 const poolId = 474
 
@@ -10,21 +9,25 @@ const initialCtxState = {
 	accountId: null,
 	poolContract: null,
 	walletAccount: null,
-	near: null
+	near: null,
+	isLoading: true
 }
 
 export function App () {
 	console.log("App...")
 	const ctx = useNearInit(initialCtxState)
 
+	if (ctx.isLoading) {
+		return <h1>Loading...</h1>
+	}
+
 	return (
 			<div>
-				<Header />
-        <Login />
 				<h1>React is here</h1>
-				{
-					ctx.poolContract ? <PoolInfo poolContract={ctx.poolContract} poolId={poolId}/>  : <h1>is loading...</h1>
-				}
+				<Login walletAccount={ctx.walletAccount}/>
+				<hr />
+				<PoolInfo poolContract={ctx.poolContract} poolId={poolId}/>
+				<hr />
 			</div>
 	)
 }

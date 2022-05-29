@@ -44,10 +44,30 @@ async function init () {
 		near,
 		walletAccount,
 		accountId,
-		poolContract
+		poolContract,
+		isLoading: false
 	}
 }
 
+/**
+ * @param {Object} walletAccount
+ * @returns {Promise<void>}
+ */
+async function login({walletAccount}) {
+	return walletAccount.requestSignIn()
+}
+
+/**
+ * @param {Object} wallet
+ * @returns {Promise<void>}
+ */
+async function logout({walletAccount}) {
+	await walletAccount.signOut();
+	window.location.replace(window.location.origin + window.location.pathname);
+}
+
 module.exports = {
-	init
+	init,
+	login,
+	logout
 }
