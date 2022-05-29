@@ -26,7 +26,7 @@ const getBalance = async ({contract, accountId}) => {
 	const rawResp = await contract.ft_balance_of({
 		account_id: accountId
 	})
-	console.log('============= useGetBalance:', contract.contractId, accountId, rawResp)
+	console.log('useGetBalance:', contract.contractId, accountId, rawResp)
 	return rawResp
 }
 
@@ -36,10 +36,10 @@ const getBalance = async ({contract, accountId}) => {
  * @returns {Promise<void>}
  */
 const getStorageBalance = async ({contract, accountId}) => {
-	const rawBalance = await contract.storage_balance_of({
+	const rawStorageBalance = await contract.storage_balance_of({
 		account_id: accountId
 	})
-	console.log(rawBalance)
+	console.log(rawStorageBalance)
 }
 
 module.exports = {

@@ -1,10 +1,7 @@
 const nearApiJS = require('near-api-js')
-
 const Big = require('big.js')
 
-const OneNear = Big(10).pow(24);
-const OneElGOLD = Big(10).pow(18);
-
+const {OneNear, OneElGOLD} = require('../config')
 
 /**
  * @param {String} contractName

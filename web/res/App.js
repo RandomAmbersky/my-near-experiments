@@ -1,25 +1,42 @@
-import React from "react"
-import {useNearInit} from "./hooks/useNearApi"
+import React, {useReducer, useEffect} from "react"
+
+import {reducer, doDispatch, initialStorage} from './api/storage'
+
+// import {useNearInit} from "./hooks/useNearApi"
+import nearAPI from './api/near-api'
+import poolApi from './api/pool-api'
 
 import PoolInfo from './components/Poolnfo'
 import Login from './components/Login'
-import UserInfo from "./components/UserInfo";
-
-const poolId = 474
-
-const initialCtxState = {
-	poolContract: null,
-	goldContract: null,
-	wNearContract: null,
-	near: null,
-	isLoading: true,
-	accountId: null,
-	walletAccount: null
-}
+// import UserInfo from "./components/UserInfo";
 
 export function App () {
 	console.log("App...")
-	const ctx = useNearInit(initialCtxState)
+	// const storage = useStorage()
+	const [ctx, dispatch] = useReducer(reducer, initialStorage);
+
+	const {
+		poolContract,
+		poolId,
+		accountId
+	} = ctx
+
+	useEffect( () => {
+		nearAPI.init()
+			.catch(err => doDispatch(dispatch, 'error', err))
+			.then(resp => doDispatch(dispatch, 'init', resp))
+	}, [])
+
+	useEffect( () => {
+		if (!accountId) { return }
+		poolApi.getInfo({poolContract, poolId})
+			.catch(err => doDispatch(dispatch, 'error', err))
+			.then(resp => doDispatch(dispatch, 'poolInfo', resp))
+	}, [accountId])
+
+	const { poolInfo } = ctx
+
+	console.log('Storage:', ctx)
 
 	if (ctx.isLoading) {
 		return <h1>Loading...</h1>
@@ -29,15 +46,22 @@ export function App () {
 			<div>
 				<h1>React is here</h1>
 				<Login walletAccount={ctx.walletAccount} accountId={ctx.accountId}/>
+				{/*{*/}
+				{/*	ctx.accountId ? <UserInfo*/}
+				{/*		wNearContract={ctx.wNearContract}*/}
+				{/*		goldContract={ctx.goldContract}*/}
+				{/*		accountId={ctx.accountId} /> : ''*/}
+				{/*}*/}
+				<hr />
 				{
-					ctx.accountId ? <UserInfo
-						wNearContract={ctx.wNearContract}
-						goldContract={ctx.goldContract}
-						accountId={ctx.accountId} /> : ''
+					poolInfo ? <PoolInfo
+						elGOLD={poolInfo.elGOLD}
+						wNear={poolInfo.wNear}
+						fee={poolInfo.fee}
+					/> : ''
 				}
-				<hr />
-				<PoolInfo poolContract={ctx.poolContract} poolId={poolId}/>
-				<hr />
+				{/*<PoolInfo poolContract={ctx.poolContract} poolId={poolId}/>*/}
+				{/*<hr />*/}
 			</div>
 	)
 }
