@@ -51,12 +51,12 @@ const poolInfo = (state, payload) => {
 
 const getBalanceGold = (state, payload) => {
 	console.log('getBalanceGold:', payload)
-	return state
+	return { ...state, balanceGold: payload }
 }
 
 const getBalanceWNear = (state, payload) => {
 	console.log('getBalanceWNear:', payload)
-	return state
+	return { ...state, balanceWNear: payload }
 }
 
 const ACTION = {

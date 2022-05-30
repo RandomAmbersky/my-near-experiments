@@ -8,6 +8,7 @@ import ftApi from './api/ft-api'
 
 import PoolInfo from './components/Poolnfo'
 import Login from './components/Login'
+import UserInfo from "./components/UserInfo";
 // import UserInfo from "./components/UserInfo";
 
 export function App () {
@@ -27,9 +28,7 @@ export function App () {
 	const {
 		poolContract,
 		poolId,
-		accountId,
-		goldContract,
-		wNearContract
+		accountId
 	} = ctx
 
 	useEffect( () => {
@@ -42,6 +41,11 @@ export function App () {
 		const resp = poolApi.getInfo({poolContract, poolId})
 		dispatchAsync('poolInfo', resp)
 	}, [accountId])
+
+	const {
+		goldContract,
+		wNearContract
+	} = ctx
 
 	useEffect( () => {
 		if (!accountId) { return }
@@ -69,12 +73,12 @@ export function App () {
 			<div>
 				<h1>React is here</h1>
 				<Login walletAccount={ctx.walletAccount} accountId={ctx.accountId}/>
-				{/*{*/}
-				{/*	ctx.accountId ? <UserInfo*/}
-				{/*		wNearContract={ctx.wNearContract}*/}
-				{/*		goldContract={ctx.goldContract}*/}
-				{/*		accountId={ctx.accountId} /> : ''*/}
-				{/*}*/}
+				{
+					ctx.balanceGold && ctx.balanceWNear ? <UserInfo
+						wNearBalance={ctx.balanceWNear}
+						elGoldBalance={ctx.balanceGold}
+					/> : ''
+				}
 				<hr />
 				{
 					poolInfo ? <PoolInfo
@@ -83,8 +87,7 @@ export function App () {
 						fee={poolInfo.fee}
 					/> : ''
 				}
-				{/*<PoolInfo poolContract={ctx.poolContract} poolId={poolId}/>*/}
-				{/*<hr />*/}
+				<hr />
 			</div>
 	)
 }

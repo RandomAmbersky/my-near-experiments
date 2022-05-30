@@ -1,20 +1,8 @@
 const Big = require('big.js')
-
-import {useGetBalance} from "../hooks/useFTApi";
 const {OneNear, OneElGOLD} = require('../config')
 
-export default function UserInfo ({wNearContract, goldContract, accountId}) {
+export default function UserInfo ({wNearBalance, elGoldBalance}) {
 	console.log('UserInfo...')
-	const wNearBalance = useGetBalance({
-		contract: wNearContract,
-		accountId
-	})
-	const elGoldBalance = useGetBalance({
-		contract: goldContract,
-		accountId
-	})
-
-	console.log(wNearBalance, elGoldBalance)
 	return (
 		<div>
 			<h3>Balance:</h3>
