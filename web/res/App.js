@@ -2,7 +2,6 @@ import React, {useReducer, useEffect} from "react"
 
 import {reducer, doDispatch, initialStorage} from './api/storage'
 
-// import {useNearInit} from "./hooks/useNearApi"
 import nearAPI from './api/near-api'
 import poolApi from './api/pool-api'
 
@@ -33,6 +32,13 @@ export function App () {
 			.catch(err => doDispatch(dispatch, 'error', err))
 			.then(resp => doDispatch(dispatch, 'poolInfo', resp))
 	}, [accountId])
+
+	// useEffect( () => {
+	// 	if (!accountId) { return }
+	// 	poolApi.getInfo({poolContract, poolId})
+	// 		.catch(err => doDispatch(dispatch, 'error', err))
+	// 		.then(resp => doDispatch(dispatch, 'poolInfo', resp))
+	// }, [accountId])
 
 	const { poolInfo } = ctx
 

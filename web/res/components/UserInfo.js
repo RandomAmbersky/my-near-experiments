@@ -1,8 +1,7 @@
 const Big = require('big.js')
-const OneNear = Big(10).pow(24);
-const OneElGOLD = Big(10).pow(18);
 
 import {useGetBalance} from "../hooks/useFTApi";
+const {OneNear, OneElGOLD} = require('../config')
 
 export default function UserInfo ({wNearContract, goldContract, accountId}) {
 	console.log('UserInfo...')
