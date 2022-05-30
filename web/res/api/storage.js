@@ -49,10 +49,22 @@ const poolInfo = (state, payload) => {
 	return { ...state, poolInfo: payload }
 }
 
+const getBalanceGold = (state, payload) => {
+	console.log('getBalanceGold:', payload)
+	return state
+}
+
+const getBalanceWNear = (state, payload) => {
+	console.log('getBalanceWNear:', payload)
+	return state
+}
+
 const ACTION = {
 	init,
 	error,
-	poolInfo
+	poolInfo,
+	getBalanceGold,
+	getBalanceWNear
 }
 
 export const reducer = (state, action) => {

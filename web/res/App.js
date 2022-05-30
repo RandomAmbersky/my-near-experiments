@@ -27,7 +27,9 @@ export function App () {
 	const {
 		poolContract,
 		poolId,
-		accountId
+		accountId,
+		goldContract,
+		wNearContract
 	} = ctx
 
 	useEffect( () => {
@@ -41,11 +43,6 @@ export function App () {
 		dispatchAsync('poolInfo', resp)
 	}, [accountId])
 
-	const {
-		goldContract,
-		wNearContract,
-	} = ctx
-
 	useEffect( () => {
 		if (!accountId) { return }
 		const respGold = ftApi.getBalance({
@@ -56,8 +53,8 @@ export function App () {
 			contract: wNearContract,
 			accountId
 		})
-		dispatchAsync('respGold', respGold)
-		dispatchAsync('respWNear', respWNear)
+		dispatchAsync('getBalanceGold', respGold)
+		dispatchAsync('getBalanceWNear', respWNear)
 	}, [accountId])
 
 	const { poolInfo } = ctx
