@@ -10,8 +10,8 @@ const initContract = async ({contractName, walletAccount}) => {
 		walletAccount.account(),
 		contractName,
 		{
-			viewMethods: ["ft_balance_of", "storage_balance_of"],
-			changeMethods: []
+			viewMethods: ["storage_balance_of", "ft_balance_of"],
+			changeMethods: ["storage_deposit", "near_deposit", "ft_transfer_call"]
 		}
 	)
 }

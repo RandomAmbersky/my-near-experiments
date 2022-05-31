@@ -14,8 +14,7 @@ const initContract = async ({contractName, walletAccount}) => {
 		contractName,
 		{
 			viewMethods: ["get_pool", "get_deposit"],
-			changeMethods: [],
-			sender: walletAccount.getAccountId()
+			changeMethods: []
 		}
 	)
 }

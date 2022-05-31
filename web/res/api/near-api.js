@@ -2,6 +2,7 @@ const nearApiJS = require('near-api-js')
 
 import poolAPI from './pool-api'
 import ftAPI from './ft-api'
+import ftWNearApi from './ft-wnear-api'
 
 const IsMainnet = false
 
@@ -58,7 +59,7 @@ async function init () {
 		walletAccount
 	})
 
-	const wNearContract = await ftAPI.initContract({
+	const wNearContract = await ftWNearApi.initContract({
 		nearApiJS,
 		contractName: nearConfig.contractWNearName,
 		walletAccount

@@ -5,6 +5,7 @@ import {reducer, doDispatch, initialStorage} from './api/storage'
 import nearAPI from './api/near-api'
 import poolApi from './api/pool-api'
 import ftApi from './api/ft-api'
+import ftWNearApi from './api/ft-wnear-api'
 
 import PoolInfo from './components/Poolnfo'
 import Login from './components/Login'
@@ -37,10 +38,10 @@ export function App () {
 	}, [])
 
 	useEffect( () => {
-		if (!accountId) { return }
+		if (!poolContract) { return }
 		const resp = poolApi.getInfo({poolContract, poolId})
 		dispatchAsync('poolInfo', resp)
-	}, [accountId])
+	}, [poolContract])
 
 	const {
 		goldContract,
@@ -53,7 +54,7 @@ export function App () {
 			contract: goldContract,
 			accountId
 		})
-		const respWNear = ftApi.getBalance({
+		const respWNear = ftWNearApi.getBalance({
 			contract: wNearContract,
 			accountId
 		})
