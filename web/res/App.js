@@ -10,7 +10,10 @@ import ftWNearApi from './api/ft-wnear-api'
 import PoolInfo from './components/Poolnfo'
 import Login from './components/Login'
 import UserInfo from "./components/UserInfo";
-// import UserInfo from "./components/UserInfo";
+
+const addWNear = async (amount) => {
+	console.log('addWNear ', amount)
+}
 
 export function App () {
 	console.log("App...")
@@ -78,6 +81,7 @@ export function App () {
 					ctx.balanceGold && ctx.balanceWNear ? <UserInfo
 						wNearBalance={ctx.balanceWNear}
 						elGoldBalance={ctx.balanceGold}
+						addWNear={addWNear}
 					/> : ''
 				}
 				<hr />
